@@ -1,16 +1,25 @@
+// other imports
 import HomePage from "./pages/homePage.js"
 import SignUpPage from "./pages/signUpPage.js";
-import { Route, Routes } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import ResponsiveFontSize from "./components/responsiveFontSize.js"
 
 function App() {
+
   return (
     <>
-      <Routes>
+      <ResponsiveFontSize>
 
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/signup" element={<SignUpPage/>} />
 
-      </Routes>
+        <Switch>
+
+          <Route exact path="/" component={HomePage} />
+          <Route path="/signup" component={SignUpPage} />
+
+        </Switch>
+
+
+      </ResponsiveFontSize>
     </>
   );
 }

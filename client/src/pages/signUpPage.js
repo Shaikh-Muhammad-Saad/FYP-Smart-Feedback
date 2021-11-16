@@ -21,7 +21,7 @@ const SignUpPage = () => {
                 alignItems="center"
                 sx={classes.mainContainer}>
 
-            {/* SIGN UP CONTAINER */}
+                {/* SIGN UP CONTAINER */}
                 <Grid
                     item
                     container
@@ -69,10 +69,10 @@ const SignUpPage = () => {
                         </Grid>
 
                         <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                            <TextField 
-                            type="email" 
-                            variant="standard" 
-                            fullWidth label="Username" />
+                            <TextField
+                                type="email"
+                                variant="standard"
+                                fullWidth label="Username" />
                         </Grid>
 
                     </Grid>
@@ -91,11 +91,11 @@ const SignUpPage = () => {
                         </Grid>
 
                         <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                            <TextField 
-                            type="password" 
-                            variant="standard" 
-                            fullWidth 
-                            label="Password" />
+                            <TextField
+                                type="password"
+                                variant="standard"
+                                fullWidth
+                                label="Password" />
                         </Grid>
 
                     </Grid>
@@ -115,10 +115,10 @@ const SignUpPage = () => {
                         </Grid>
 
                         <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                            <TextField 
-                            type="password" 
-                            variant="standard" 
-                            fullWidth label="Confirm password" />
+                            <TextField
+                                type="password"
+                                variant="standard"
+                                fullWidth label="Confirm password" />
                         </Grid>
 
                     </Grid>
@@ -127,7 +127,7 @@ const SignUpPage = () => {
                     <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
                         <Button variant="contained" fullWidth>Register User</Button>
                         <Typography variant="subtitle2" align="center" sx={{ marginTop: "15px" }} >
-                            <Link to="/home">
+                            <Link to="/">
                                 Already registerd? Signin
                             </Link>
                         </Typography>

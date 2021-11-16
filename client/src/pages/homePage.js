@@ -1,21 +1,23 @@
-import { Grid, Typography, TextField, Button } from "@mui/material";
+import { Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import useMediaQuery from '@mui/material/useMediaQuery';
-// import feedbackstars from "../../public/assets/"
+import Divider from '@mui/material/Divider';
 import React from "react";
-import { Link } from "react-router-dom"
+import { usehistory, withRouter } from "react-router-dom"
 
 
-const HomePage = () => {
+const HomePage = (props) => {
+console.log(props.history);
     const theme = useTheme();
     const isWidth350 = useMediaQuery("(max-width:350px)");
     const windowheight = window.innerHeight;
     const classes = styles(theme, windowheight);
 
     return (<>
-        <Grid container sx={{ ...classes.mainContainer }}>
+        <Grid container direction="row" sx={{ ...classes.mainContainer }}>
+
 
             {/* 1ST GRID */}
             <Grid
@@ -28,19 +30,25 @@ const HomePage = () => {
                 xs={12} sm={12} md={6} lg={6} xl={6}
             >
 
-                <Typography variant="h2" sx={classes.headingsGeneral}>
+                <Typography variant="h3" align="center" sx={classes.headingsGeneral}>
                     ABC... Comapany
                 </Typography>
 
-                <Typography variant="h4" sx={classes.headingsGeneral}>
+                <Typography variant="h5" align="center" sx={classes.headingsGeneral}>
                     FeedBack Portal
                 </Typography>
 
-                <Typography variant="h6" sx={classes.headingsGeneral}>
+                <Typography variant="subtitle1" align="center" sx={classes.headingsGeneral}>
                     Want to share your point of view? We value your feedback
+
                 </Typography>
 
-                <img width="50%" src="assets/feedbackstars.png" style={{marginLeft: "15%",}} />
+                <Box sx={{ ...classes.starimage }}>
+                    <img width="100%"
+                        src="assets/feedbackstars.png"
+                    />
+                </Box>
+
             </Grid>
 
             {/* 2ND GRID */}
@@ -50,6 +58,7 @@ const HomePage = () => {
                 justifyContent="center"
                 alignItems="center"
                 xs={12} sm={12} md={6} lg={6} xl={6}
+                sx={{ ...classes.secondContainer }}
             >
 
                 {/* SIGN IN CONTAINER */}
@@ -114,6 +123,23 @@ const HomePage = () => {
                         <Button variant="contained" fullWidth>Sign In</Button>
                     </Grid>
 
+                    <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
+                        <Divider
+                            sx={classes.divider}
+                        >Register</Divider>
+                    </Grid>
+
+                    <Grid item xs={9} sm={9} md={7} lg={9} xl={9} sx={{ ...classes.itemGridmargin }}>
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            sx={classes.registerButton}
+                            onClick={()=>props.history.push("/signup")}
+                        >
+                            Create new account
+                        </Button>
+                    </Grid>
+
                 </Grid>
 
             </Grid>
@@ -131,12 +157,13 @@ const styles = (theme, windowheight) => {
         signInContainer: {
             background: "white",
             borderRadius: "15px",
-            marginTop: "10vh",
-            marginBottom: "10vh"
+            [theme.breakpoints.only("xs")]: {
+                marginBottom: "100px"
+            }
         },
         itemGridmargin: {
-            marginTop: "3vh",
-            marginBottom: "3vh",
+            marginTop: "2vh",
+            marginBottom: "2vh",
 
         },
         iconsGeneral: {
@@ -148,17 +175,31 @@ const styles = (theme, windowheight) => {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                marginBottom: "-40px"
-            }
+            },
         },
         headingsGeneral: {
             color: "white",
             fontWeight: "bold",
             marginLeft: "15%",
             [theme.breakpoints.down("md")]: { marginLeft: 0 }
+        },
+        starimage: {
+            marginLeft: "15%",
+            [theme.breakpoints.down("md")]: { marginLeft: 0, width: "30%" },
+            [theme.breakpoints.down("sm")]: { display: "none" }
+        },
+        divider: {
+            "& .MuiDivider-wrapper": { color: "#737373" },
+            "&.MuiDivider-root:before": { borderColor: "#c3c3c3" },
+            "&.MuiDivider-root:after": { borderColor: "#c3c3c3" },
+        },
+        registerButton: {
+            background: "green",
+            height: "60px",
+            marginBottom:"10px"
         }
     });
 };
 
 
-export default HomePage;
+export default withRouter(HomePage);
