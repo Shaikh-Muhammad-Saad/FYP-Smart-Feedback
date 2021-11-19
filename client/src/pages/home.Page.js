@@ -2,6 +2,7 @@ import { Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Divider from '@mui/material/Divider';
 import React from "react";
@@ -9,7 +10,6 @@ import { usehistory, withRouter } from "react-router-dom"
 
 
 const HomePage = (props) => {
-console.log(props.history);
     const theme = useTheme();
     const isWidth350 = useMediaQuery("(max-width:350px)");
     const windowheight = window.innerHeight;
@@ -30,11 +30,11 @@ console.log(props.history);
                 xs={12} sm={12} md={6} lg={6} xl={6}
             >
 
-                <Typography variant="h3" align="center" sx={classes.headingsGeneral}>
+                <Typography variant="h2" align="center" sx={classes.headingsGeneral}>
                     ABC... Comapany
                 </Typography>
 
-                <Typography variant="h5" align="center" sx={classes.headingsGeneral}>
+                <Typography variant="h4" align="center" sx={classes.headingsGeneral}>
                     FeedBack Portal
                 </Typography>
 
@@ -48,6 +48,13 @@ console.log(props.history);
                         src="assets/feedbackstars.png"
                     />
                 </Box>
+
+                <Button endIcon={<ArrowForwardIosIcon/>} style={{ ...classes.headingsGeneral, padding: "20px", color: "#4d79ff", fontWeight: "bold", background: "white", borderRadius: "30px", marginTop: "10px" }}>
+                   <Typography variant="h6">
+                    See Feedbacks
+                   </Typography>
+                </Button>
+
 
             </Grid>
 
@@ -134,7 +141,7 @@ console.log(props.history);
                             variant="contained"
                             fullWidth
                             sx={classes.registerButton}
-                            onClick={()=>props.history.push("/signup")}
+                            onClick={() => props.history.push("/signup")}
                         >
                             Create new account
                         </Button>
@@ -196,7 +203,7 @@ const styles = (theme, windowheight) => {
         registerButton: {
             background: "green",
             height: "60px",
-            marginBottom:"10px"
+            marginBottom: "10px"
         }
     });
 };

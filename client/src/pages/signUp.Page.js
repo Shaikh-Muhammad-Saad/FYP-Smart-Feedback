@@ -10,7 +10,8 @@ import react from "react"
 const SignUpPage = () => {
     const theme = useTheme();
     const isWidth350 = useMediaQuery("(max-width:350px)");
-    const classes = styles(theme);
+    const windowheight = window.innerHeight;
+    const classes = styles(theme,windowheight);
 
     return (
         <>
@@ -50,7 +51,7 @@ const SignUpPage = () => {
                         </Grid>
 
                         <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                            <TextField type="email" variant="standard" fullWidth label="E-mail" />
+                            <TextField type="email" required variant="standard" fullWidth  label="E-mail" />
                         </Grid>
 
                     </Grid>
@@ -141,11 +142,12 @@ const SignUpPage = () => {
 };
 
 
-const styles = (theme) => {
+const styles = (theme,windowheight) => {
     return (
         {
             mainContainer: {
-                background: "#4d79ff"
+                background: "#4d79ff",
+                height: windowheight
             },
             signUpContainer: {
                 background: "white",
