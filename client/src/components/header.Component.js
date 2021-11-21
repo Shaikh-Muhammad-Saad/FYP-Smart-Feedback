@@ -24,9 +24,9 @@ const Header = (props) => {
                         <Grid
                             item
                             container
-                            justifyContent="space-evenly"
+                            justifyContent="flex-start"
                             alignItems="flex-end"
-                            sm={4} md={4} lg={4} xl={4}
+                            sm={9} md={9} lg={9} xl={9}
                         >
                             <NavLink
                                 to="/user"
@@ -39,7 +39,17 @@ const Header = (props) => {
                             </NavLink>
 
                             <NavLink
-                                to="/user-feedback"
+                                to="/previous-feedbacks"
+                                activeStyle={classes.navlinksGeneral}
+                                style={classes.linksGeneral}
+                            >
+                                <Typography variant="subtitle1" >
+                                    Previous Feedbacks
+                                </Typography>
+                            </NavLink>
+
+                            <NavLink
+                                to="/feedback"
                                 activeStyle={classes.navlinksGeneral}
                                 style={classes.linksGeneral}
                             >
@@ -54,7 +64,7 @@ const Header = (props) => {
                             container
                             justifyContent="flex-end"
                             alignItems="center"
-                            sm={8} md={8} lg={8} xl={8}
+                            sm={3} md={3} lg={3} xl={3}
                         >
                             <Button sx={classes.logoutBtn} variant="contained">
                                 <Typography variant="caption">
@@ -99,7 +109,17 @@ const Header = (props) => {
                                 </NavLink>
 
                                 <NavLink
-                                    to="/user-feedback"
+                                    to="/previous-feedbacks"
+                                    activeStyle={classes.navlinksGeneral}
+                                    style={classes.linksGeneral}
+                                >
+                                    <Typography variant="subtitle1" >
+                                        Previous Feedbacks
+                                    </Typography>
+                                </NavLink>
+
+                                <NavLink
+                                    to="/feedback"
                                     activeStyle={classes.navlinksGeneral}
                                     style={classes.linksGeneral}
                                 >
@@ -146,7 +166,8 @@ const styles = (theme) => {
         linksGeneral: {
             color: "white",
             textDecoration: "none",
-            padding: "3px"
+            padding: "3px",
+            marginLeft:"5%"
         },
         navlinksGeneral: {
             color: "white",

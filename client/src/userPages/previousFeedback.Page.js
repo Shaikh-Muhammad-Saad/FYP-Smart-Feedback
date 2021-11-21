@@ -4,13 +4,13 @@ import { useTheme } from '@mui/material/styles';
 import { Link, NavLink } from "react-router-dom";
 import Header from "../components/header.Component.js"
 
-const UserFeedBackPage = (props) => {
+const PreviousFeedback = (props) => {
     const theme = useTheme();
     const classes = styles(theme);
     return (<>
         <Header />
         <center>
-            <h1>user feed back page</h1>
+            <h1>previous feedback  page</h1>
         </center>
 
     </>)
@@ -23,4 +23,4 @@ const styles = (theme) => {
     });
 };
 
-export default UserFeedBackPage;
+export default PreviousFeedback;

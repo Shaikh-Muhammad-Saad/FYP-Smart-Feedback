@@ -40,20 +40,20 @@ const HomePage = (props) => {
 
                 <Typography variant="subtitle1" align="center" sx={classes.headingsGeneral}>
                     Want to share your point of view? We value your feedback
-
                 </Typography>
 
                 <Box sx={{ ...classes.starimage }}>
-                    <img width="100%"
+                    <img
+                        width="100%"
                         src="assets/feedbackstars.png"
                     />
                 </Box>
 
-                <Button endIcon={<ArrowForwardIosIcon/>} style={{ ...classes.headingsGeneral, padding: "20px", color: "#4d79ff", fontWeight: "bold", background: "white", borderRadius: "30px", marginTop: "10px" }}>
+                {/* <Button endIcon={<ArrowForwardIosIcon/>} style={{ ...classes.headingsGeneral, padding: "20px", color: "#4d79ff", fontWeight: "bold", background: "white", borderRadius: "30px", marginTop: "10px" }}>
                    <Typography variant="h6">
                     See Feedbacks
                    </Typography>
-                </Button>
+                </Button> */}
 
 
             </Grid>
