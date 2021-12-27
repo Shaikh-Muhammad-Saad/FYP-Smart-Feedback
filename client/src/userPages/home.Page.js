@@ -31,7 +31,7 @@ const HomePage = (props) => {
             >
 
                 <Typography variant="h2" align="center" sx={classes.headingsGeneral}>
-                    ABC... Comapany
+                    ABC... Company
                 </Typography>
 
                 <Typography variant="h4" align="center" sx={classes.headingsGeneral}>
