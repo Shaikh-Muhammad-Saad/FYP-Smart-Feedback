@@ -2,7 +2,7 @@ import react, { useState } from "react";
 import { useTheme } from '@mui/material/styles';
 import Rating from '@mui/material/Rating';
 import { Grid, Typography } from "@mui/material";
-import { fontSize, typography } from "@mui/system";
+import Divider from '@mui/material/Divider';
 
 
 
@@ -44,7 +44,9 @@ const StarRatingComponent = (props) => {
                     {value}/5
                 </Typography>
             </Grid>
+
         </Grid>
+        <Divider sx={{ ...classes.dividerGeneral}} />
     </>)
 };
 
@@ -61,7 +63,10 @@ const styles = (theme) => {
         },
         ratingNumber: {
             marginLeft: "2%"
-        }
+        },
+        dividerGeneral: {
+            margin: "15px", "&.MuiDivider-root": { borderColor: "#c3c3c3" }
+        },
     });
 };
 

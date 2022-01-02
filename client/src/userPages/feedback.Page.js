@@ -18,17 +18,11 @@ const FeedBackPage = (props) => {
                 xs={11} sm={11} md={5.5} lg={5} xl={5}
             >
                 <StarRatingComponent question="Did we meet your expactations?" />
-                <Divider sx={{ ...classes.dividerGeneral }} />
                 <StarRatingComponent question="How would you rate your interaction with Our employees?" />
-                <Divider sx={{ ...classes.dividerGeneral }} />
                 <StarRatingComponent question="How do you rate the variety of options on the menu?" />
-                <Divider sx={{ ...classes.dividerGeneral }} />
                 <StarRatingComponent question="How would you rate the quality of the food at our restaurant?" />
-                <Divider sx={{ ...classes.dividerGeneral }} />
                 <StarRatingComponent question="How Would you rate the friendlyness of our staff?" />
-                <Divider sx={{ ...classes.dividerGeneral }} />
                 <StarRatingComponent question="How were the drinks and beverages?" />
-                <Divider sx={{ ...classes.dividerGeneral }} />
                 <StarRatingComponent question="How much did you enjoy your visit?" />
             </Grid>
 

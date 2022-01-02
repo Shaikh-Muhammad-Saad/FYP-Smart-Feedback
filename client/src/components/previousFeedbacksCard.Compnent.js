@@ -1,4 +1,6 @@
 import { Grid, Typography } from "@mui/material";
+import Divider from '@mui/material/Divider';
+
 
 const PreviousFeedbacksCard = (props) => {
 
@@ -27,10 +29,14 @@ const PreviousFeedbacksCard = (props) => {
                     Date: {date}
                 </Typography>
 
-                <Typography color="white" variant="subtitle1" sx={{marginLeft:"3%"}}>
+                <Typography color="white" variant="subtitle1" sx={{ marginLeft: "3%" }}>
                     Rating: {rating}/5
                 </Typography>
             </Grid>
+
+        <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
+            <Divider sx={{ ...classes.dividerGeneral }} />
+        </Grid>
 
             {/* Feedback container */}
             <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
@@ -51,8 +57,13 @@ const styles = () => ({
     },
     date_RatingContainer: {
         marginTop: "8px",
-        marginBottom: "10px",
-    }
+        marginBottom: "5px",
+    },
+    dividerGeneral: {
+        margin: "5px",
+        marginBottom:"10px",
+        "&.MuiDivider-root": { borderColor: "white" },
+    },
 });
 
 export default PreviousFeedbacksCard;
