@@ -5,7 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, NavLink } from "react-router-dom";
 import Header from "../components/header.Component.js"
 
-const UserPage = (props) => {
+const UserProfilePage = (props) => {
     const theme = useTheme();
     const classes = styles(theme);
     const isXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -200,4 +200,4 @@ const styles = (theme) => {
     });
 };
 
-export default UserPage;
+export default UserProfilePage;

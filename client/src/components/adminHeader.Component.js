@@ -2,9 +2,9 @@ import react, { useState } from "react";
 import { AppBar, Toolbar, Grid, Typography, Button, Hidden, IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const Header = (props) => {
+const AdminHeader = () => {
     const theme = useTheme();
     const classes = styles(theme);
     const [dropDownMenu, setDropDownMenu] = useState(false);
@@ -29,17 +29,17 @@ const Header = (props) => {
                             sm={9} md={9} lg={9} xl={9}
                         >
                             <NavLink
-                                to="/user-profile"
+                                to="*"
                                 activeStyle={classes.navlinksGeneral}
                                 style={classes.linksGeneral}
                             >
                                 <Typography variant="subtitle1" >
-                                    Username
+                                    Admin name
                                 </Typography>
                             </NavLink>
 
                             <NavLink
-                                to="/previous-feedbacks"
+                                to="*"
                                 activeStyle={classes.navlinksGeneral}
                                 style={classes.linksGeneral}
                             >
@@ -49,7 +49,7 @@ const Header = (props) => {
                             </NavLink>
 
                             <NavLink
-                                to="/feedback"
+                                to="*"
                                 activeStyle={classes.navlinksGeneral}
                                 style={classes.linksGeneral}
                             >
@@ -99,7 +99,7 @@ const Header = (props) => {
                                 sx={{ marginBottom: "30px", marginTop: "10px" }}
                             >
                                 <NavLink
-                                    to="/user-profile"
+                                    to="/"
                                     activeStyle={classes.navlinksGeneral}
                                     style={classes.linksGeneral}
                                 >
@@ -109,7 +109,7 @@ const Header = (props) => {
                                 </NavLink>
 
                                 <NavLink
-                                    to="/previous-feedbacks"
+                                    to="/"
                                     activeStyle={classes.navlinksGeneral}
                                     style={classes.linksGeneral}
                                 >
@@ -119,7 +119,7 @@ const Header = (props) => {
                                 </NavLink>
 
                                 <NavLink
-                                    to="/feedback"
+                                    to="/"
                                     activeStyle={classes.navlinksGeneral}
                                     style={classes.linksGeneral}
                                 >
@@ -182,4 +182,4 @@ const styles = (theme) => {
     });
 };
 
-export default Header;
+export default AdminHeader;
