@@ -108,8 +108,8 @@ const styles = (theme, windowheight) => {
             }
         },
         itemGridmargin: {
-            marginTop: "2vh",
-            marginBottom: "2vh",
+            marginTop: "5vh",
+            marginBottom: "5vh",
 
         },
         iconsGeneral: {
