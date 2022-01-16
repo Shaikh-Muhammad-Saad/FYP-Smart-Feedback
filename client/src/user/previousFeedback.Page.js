@@ -1,10 +1,10 @@
 import react from "react";
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
-import Header from "../components/header.Component.js"
-import PreviousFeedbacksCard from "../components/previousFeedbacksCard.Compnent.js"
+import Header from "../components/header.Component"
+import FeedbacksCard from "../components/feedbackCard.Compnent"
 
-const PreviousFeedback = (props) => {
+const PreviousFeedbackPage = (props) => {
     const theme = useTheme();
     const classes = styles(theme);
     return (<>
@@ -28,18 +28,18 @@ const PreviousFeedback = (props) => {
                 item
                 xs={11} sm={9} md={9} lg={9} xl={9}
             >
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
-                <PreviousFeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
             </Grid>
 
         </Grid>
@@ -54,4 +54,4 @@ const styles = (theme) => {
     });
 };
 
-export default PreviousFeedback;
+export default PreviousFeedbackPage;

@@ -1,5 +1,5 @@
 import react from "react";
-import { AppBar, Toolbar, Grid, Typography, Button, Divider } from "@mui/material";
+import { Grid, Typography, Button, Divider } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, NavLink } from "react-router-dom";

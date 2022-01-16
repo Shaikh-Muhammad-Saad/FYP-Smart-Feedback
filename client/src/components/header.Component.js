@@ -5,15 +5,14 @@ import { useTheme } from '@mui/material/styles';
 import { Link, NavLink } from "react-router-dom";
 
 const Header = (props) => {
+    const [dropDownMenu, setDropDownMenu] = useState(false);
     const theme = useTheme();
     const classes = styles(theme);
-    const [dropDownMenu, setDropDownMenu] = useState(false);
-    console.log(dropDownMenu);
+    const role = "admin";
+
     return (<>
         <AppBar position="static">
             <Toolbar>
-
-
 
                 {/* desktop size menu bar */}
                 <Hidden only="xs">
@@ -21,43 +20,93 @@ const Header = (props) => {
                         container
                         direction="row"
                     >
-                        <Grid
-                            item
-                            container
-                            justifyContent="flex-start"
-                            alignItems="flex-end"
-                            sm={9} md={9} lg={9} xl={9}
-                        >
-                            <NavLink
-                                to="/user-profile"
-                                activeStyle={classes.navlinksGeneral}
-                                style={classes.linksGeneral}
-                            >
-                                <Typography variant="subtitle1" >
-                                    Username
-                                </Typography>
-                            </NavLink>
+                        {
+                            role == "user" ?
+                                <>
+                                    {/* User Navlinks */}
 
-                            <NavLink
-                                to="/previous-feedbacks"
-                                activeStyle={classes.navlinksGeneral}
-                                style={classes.linksGeneral}
-                            >
-                                <Typography variant="subtitle1" >
-                                    Previous Feedbacks
-                                </Typography>
-                            </NavLink>
+                                    <Grid
+                                        item
+                                        container
+                                        justifyContent="flex-start"
+                                        alignItems="flex-end"
+                                        sm={9} md={9} lg={9} xl={9}
+                                    >
+                                        <NavLink
+                                            to="/user-profile"
+                                            activeStyle={classes.navlinksGeneral}
+                                            style={classes.linksGeneral}
+                                        >
+                                            <Typography variant="subtitle1" >
+                                                Username
+                                            </Typography>
+                                        </NavLink>
 
-                            <NavLink
-                                to="/feedback"
-                                activeStyle={classes.navlinksGeneral}
-                                style={classes.linksGeneral}
-                            >
-                                <Typography variant="subtitle1" >
-                                    Feedback
-                                </Typography>
-                            </NavLink>
-                        </Grid>
+                                        <NavLink
+                                            to="/previous-feedbacks"
+                                            activeStyle={classes.navlinksGeneral}
+                                            style={classes.linksGeneral}
+                                        >
+                                            <Typography variant="subtitle1" >
+                                                Previous Feedbacks
+                                            </Typography>
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/feedback"
+                                            activeStyle={classes.navlinksGeneral}
+                                            style={classes.linksGeneral}
+                                        >
+                                            <Typography variant="subtitle1" >
+                                                Feedback
+                                            </Typography>
+                                        </NavLink>
+                                    </Grid>
+                                </> :
+                                <>
+                                    {/* Admin Navlinks */}
+
+                                    <Grid
+                                        item
+                                        container
+                                        justifyContent="flex-start"
+                                        alignItems="flex-end"
+                                        sm={9} md={9} lg={9} xl={9}
+                                    >
+                                        <NavLink
+                                            to="/admin-profile"
+                                            activeStyle={classes.navlinksGeneral}
+                                            style={classes.linksGeneral}
+                                        >
+                                            <Typography variant="subtitle1" >
+                                                Username
+                                            </Typography>
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/admin-feedbacks"
+                                            activeStyle={classes.navlinksGeneral}
+                                            style={classes.linksGeneral}
+                                        >
+                                            <Typography variant="subtitle1" >
+                                                Feedbacks
+                                            </Typography>
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/questions"
+                                            activeStyle={classes.navlinksGeneral}
+                                            style={classes.linksGeneral}
+                                        >
+                                            <Typography variant="subtitle1" >
+                                                Questions
+                                            </Typography>
+                                        </NavLink>
+
+                                    </Grid>
+                                </>
+
+                        }
 
                         <Grid
                             item
@@ -90,44 +139,95 @@ const Header = (props) => {
                         </Grid>
 
                         <Grid item container direction="column" sx={{ marginY: "10px", display: dropDownMenu ? "block" : "none" }}>
-                            <Grid
-                                item
-                                container
-                                direction="column"
-                                justifyContent="space-evenly"
-                                alignItems="flex-start"
-                                sx={{ marginBottom: "30px", marginTop: "10px" }}
-                            >
-                                <NavLink
-                                    to="/user-profile"
-                                    activeStyle={classes.navlinksGeneral}
-                                    style={classes.linksGeneral}
-                                >
-                                    <Typography variant="subtitle1" >
-                                        Username
-                                    </Typography>
-                                </NavLink>
 
-                                <NavLink
-                                    to="/previous-feedbacks"
-                                    activeStyle={classes.navlinksGeneral}
-                                    style={classes.linksGeneral}
-                                >
-                                    <Typography variant="subtitle1" >
-                                        Previous Feedbacks
-                                    </Typography>
-                                </NavLink>
+                            {
+                                role == "user" ?
+                                    <>
+                                        <Grid
+                                            item
+                                            container
+                                            direction="column"
+                                            justifyContent="space-evenly"
+                                            alignItems="flex-start"
+                                            sx={{ marginBottom: "30px", marginTop: "10px" }}
+                                        >
 
-                                <NavLink
-                                    to="/feedback"
-                                    activeStyle={classes.navlinksGeneral}
-                                    style={classes.linksGeneral}
-                                >
-                                    <Typography variant="subtitle1" >
-                                        Feedback
-                                    </Typography>
-                                </NavLink>
-                            </Grid>
+
+                                            <NavLink
+                                                to="/user-profile"
+                                                activeStyle={classes.navlinksGeneral}
+                                                style={classes.linksGeneral}
+                                            >
+                                                <Typography variant="subtitle1" >
+                                                    Username
+                                                </Typography>
+                                            </NavLink>
+
+                                            <NavLink
+                                                to="/previous-feedbacks"
+                                                activeStyle={classes.navlinksGeneral}
+                                                style={classes.linksGeneral}
+                                            >
+                                                <Typography variant="subtitle1" >
+                                                    Previous Feedbacks
+                                                </Typography>
+                                            </NavLink>
+
+                                            <NavLink
+                                                to="/feedback"
+                                                activeStyle={classes.navlinksGeneral}
+                                                style={classes.linksGeneral}
+                                            >
+                                                <Typography variant="subtitle1" >
+                                                    Feedback
+                                                </Typography>
+                                            </NavLink>
+
+                                        </Grid>
+                                    </> :
+                                    <>
+                                        <Grid
+                                            item
+                                            container
+                                            direction="column"
+                                            justifyContent="space-evenly"
+                                            alignItems="flex-start"
+                                            sx={{ marginBottom: "30px", marginTop: "10px" }}
+                                        >
+
+                                            <NavLink
+                                                to="/admin-profile"
+                                                activeStyle={classes.navlinksGeneral}
+                                                style={classes.linksGeneral}
+                                            >
+                                                <Typography variant="subtitle1" >
+                                                    Username
+                                                </Typography>
+                                            </NavLink>
+
+                                            <NavLink
+                                                to="/admin-feedbacks"
+                                                activeStyle={classes.navlinksGeneral}
+                                                style={classes.linksGeneral}
+                                            >
+                                                <Typography variant="subtitle1" >
+                                                    Feedbacks
+                                                </Typography>
+                                            </NavLink>
+
+                                            <NavLink
+                                                to="/questions"
+                                                activeStyle={classes.navlinksGeneral}
+                                                style={classes.linksGeneral}
+                                            >
+                                                <Typography variant="subtitle1" >
+                                                    Questions
+                                                </Typography>
+                                            </NavLink>
+
+                                        </Grid>
+                                    </>
+                            }
 
                             <Grid
                                 item
@@ -167,7 +267,7 @@ const styles = (theme) => {
             color: "white",
             textDecoration: "none",
             padding: "3px",
-            marginLeft:"5%"
+            marginLeft: "5%"
         },
         navlinksGeneral: {
             color: "white",

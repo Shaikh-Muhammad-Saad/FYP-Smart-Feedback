@@ -37,7 +37,7 @@ const AdminLoginPage = () => {
                 {/* SIGN UP HEADING */}
                 <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
                     <Typography variant="h4" fontWeight="bold" align="center" >
-                        Admin Panel
+                        Admin Panel Login
                     </Typography>
                 </Grid>
 

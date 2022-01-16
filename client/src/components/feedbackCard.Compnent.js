@@ -6,7 +6,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
-const PreviousFeedbacksCard = (props) => {
+const FeedbacksCard = (props) => {
     const theme = useTheme();
     const isWidth400px = useMediaQuery("(max-width:400px)");
     const classes = styles(theme);
@@ -14,7 +14,8 @@ const PreviousFeedbacksCard = (props) => {
     const date = "09-12-2021";
     const rating = 4;
     const feedback = "this is some dummy text to show the user feed back and for the testing of user Interface this is some dummy text to show the user feed back and for the testing of user Interface this is some dummy text to show the user feed back and for the testing of user Interface";
-    const user = "user"
+    const role = "admin"
+
     return (<>
         <Grid
             container
@@ -58,7 +59,7 @@ const PreviousFeedbacksCard = (props) => {
                 justifyContent={isWidth400px? "center" : null}
             >
 
-                {user !== "admin" ? (
+                {role !== "admin" ? (
                     <Button sx={{ ...classes.editBtn }}>
                         Edit
                     </Button>
@@ -117,4 +118,4 @@ const styles = (theme) => ({
     }
 });
 
-export default PreviousFeedbacksCard;
+export default FeedbacksCard;
