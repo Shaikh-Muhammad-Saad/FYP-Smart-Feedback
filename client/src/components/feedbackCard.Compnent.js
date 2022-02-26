@@ -14,7 +14,7 @@ const FeedbacksCard = (props) => {
     const date = "09-12-2021";
     const rating = 4;
     const feedback = "this is some dummy text to show the user feed back and for the testing of user Interface this is some dummy text to show the user feed back and for the testing of user Interface this is some dummy text to show the user feed back and for the testing of user Interface";
-    const role = "admin"
+    const role = "user"
 
     return (<>
         <Grid

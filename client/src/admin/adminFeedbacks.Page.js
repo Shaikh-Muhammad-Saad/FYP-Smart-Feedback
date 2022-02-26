@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Grid, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -12,10 +12,15 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
+import FeedbacksCard from "../components/feedbackCard.Compnent"
 
 const AdminFeedbacksPage = () => {
 
     const theme = useTheme();
+    const sortBylatestFeedbacks = useRef();
+    const sortByDate = useRef();
+    const sortByRating = useRef();
+    const searchingContainerRef = useRef();
     const classes = styles(theme);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -33,6 +38,26 @@ const AdminFeedbacksPage = () => {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    // sorting handlers
+    const handelDateDisplay = () => {
+        searchingContainerRef.current.style.display = "block"
+        sortByDate.current.style.display = "block"
+        sortByRating.current.style.display = "none"
+        sortBylatestFeedbacks.current.style.display = "none"
+    };
+    const handelRatingDisplay = () => {
+        searchingContainerRef.current.style.display = "block"
+        sortByRating.current.style.display = "block"
+        sortByDate.current.style.display = "none"
+        sortBylatestFeedbacks.current.style.display = "none"
+    };
+    const handelLatestFeedbackDisplay = () => {
+        searchingContainerRef.current.style.display = "block"
+        sortBylatestFeedbacks.current.style.display = "block"
+        sortByRating.current.style.display = "none"
+        sortByDate.current.style.display = "none"
     };
 
 
@@ -74,7 +99,7 @@ const AdminFeedbacksPage = () => {
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                     endIcon={<KeyboardArrowDownIcon />}
-                    sx={{ background: "#d9d9d9", width: "150px", color: "black" }}
+                    sx={{ borderRadius: "0px", background: "#d9d9d9", width: "160px", color: "black" }}
                 >
                     <Typography >Sort By</Typography>
                 </Button>
@@ -87,20 +112,21 @@ const AdminFeedbacksPage = () => {
                         'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <MenuItem onClick={handleClose}>Sort By Date</MenuItem>
-                    <MenuItem onClick={handleClose}>Sort By Rating</MenuItem>
-                    <MenuItem onClick={handleClose}>Latest Feedbacks</MenuItem>
+                    <MenuItem onClick={handelDateDisplay}>Sort By Date</MenuItem>
+                    <MenuItem onClick={handelRatingDisplay}>Sort By Rating</MenuItem>
+                    <MenuItem onClick={handelLatestFeedbackDisplay}>Latest Feedbacks</MenuItem>
                 </Menu>
             </Grid>
         </Grid>
 
-        {/* searching Grid */}
+        {/* Sorting Grid */}
         <Grid
             container
             sx={classes.searchingContainer}
+            ref={searchingContainerRef}
         >
 
-            {/* Date Picker */}
+            {/* Date Picker container */}
             <Grid
                 item
                 container
@@ -109,21 +135,23 @@ const AdminFeedbacksPage = () => {
                 xs={12} sm={12} md={12} lg={12} xl={12}
                 sx={classes.DatePickerGrid}
             >
+
                 <TextField
                     id="date"
                     label="Sort By Date"
                     type="date"
                     defaultValue={date}
-                    sx={{ width: 220 }}
+                    fullWidth
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    sx={{...classes.datePicker,display:"none" }}
+                    sx={{ ...classes.datePicker }}
                     onChange={(e) => setDate(e.target.value)}
+                    ref={sortByDate}
                 />
 
                 {/* Rating Box */}
-                <Box sx={{...classes.ratingBox,display:"none" }}>
+                <Box ref={sortByRating} sx={{ ...classes.ratingBox }}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Select Rating</InputLabel>
                         <Select
@@ -131,7 +159,7 @@ const AdminFeedbacksPage = () => {
                             id="demo-simple-select"
                             value={rating}
                             label="Select Rating"
-                            onChange={(e)=>setRating(e.target.value)}
+                            onChange={(e) => setRating(e.target.value)}
                         >
                             <MenuItem value={1}>1 Star</MenuItem>
                             <MenuItem value={2}>2 Star</MenuItem>
@@ -143,7 +171,7 @@ const AdminFeedbacksPage = () => {
                 </Box>
 
                 {/* latest Feedbacks search */}
-                <Box sx={{...classes.latestFeedbacks}}>
+                <Box ref={sortBylatestFeedbacks} sx={{ ...classes.latestFeedbacks }}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Select Day</InputLabel>
                         <Select
@@ -151,7 +179,7 @@ const AdminFeedbacksPage = () => {
                             id="demo-simple-select"
                             value={day}
                             label="Select day"
-                            onChange={(e)=>setDay(e.target.value)}
+                            onChange={(e) => setDay(e.target.value)}
                         >
                             <MenuItem value={1}>1 day ago</MenuItem>
                             <MenuItem value={2}>2 day ago</MenuItem>
@@ -170,6 +198,33 @@ const AdminFeedbacksPage = () => {
 
 
 
+        </Grid>
+
+        {/* USER FEEDBACKS */}
+        <Grid container >
+            <Grid 
+            item
+            // sx={{border:"5px solid green"}} 
+            xs={0.5} sm={0.5} md={0.5} lg={0.5} xl={0.5}
+            /> 
+            
+            <Grid
+                item
+                xs={11} sm={9} md={9} lg={9} xl={9}
+            >
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+                <FeedbacksCard />
+            </Grid>
         </Grid>
 
 
@@ -205,6 +260,7 @@ const styles = (theme) => ({
         marginTop: "15px",
         paddingTop: "15px",
         paddingBottom: "15px",
+        display: "none"
     },
     searchBtn: {
         height: "50px",
@@ -217,17 +273,20 @@ const styles = (theme) => ({
             display: "flex",
             flexDirection: "column",
             alignItems: "start"
-        }
+        },
     },
     datePicker: {
-        width: { xs: "80%", sm: "30%" }
+        width: { xs: "80%", sm: "30%" },
+        display: "none",
     },
-    ratingBox:{
-        width:{xs: "40%", sm: "30%"}
+    ratingBox: {
+        width: { xs: "40%", sm: "30%" },
+        display: "none"
     },
-    latestFeedbacks:{
-        width:{xs: "45%", sm: "30%"}
-     }
+    latestFeedbacks: {
+        width: { xs: "45%", sm: "30%" },
+        display: "none"
+    }
 
 });
 
