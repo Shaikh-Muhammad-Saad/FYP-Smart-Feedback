@@ -8,7 +8,7 @@ const Header = (props) => {
     const [dropDownMenu, setDropDownMenu] = useState(false);
     const theme = useTheme();
     const classes = styles(theme); 
-    const role = "user";
+    const role = "admin";
 
     return (<>
         <AppBar position="sticky">
@@ -94,7 +94,7 @@ const Header = (props) => {
                                         </NavLink>
 
                                         <NavLink
-                                            to="/questions"
+                                            to="/admin-questions"
                                             activeStyle={classes.navlinksGeneral}
                                             style={classes.linksGeneral}
                                         >
@@ -216,7 +216,7 @@ const Header = (props) => {
                                             </NavLink>
 
                                             <NavLink
-                                                to="/questions"
+                                                to="/admin-questions"
                                                 activeStyle={classes.navlinksGeneral}
                                                 style={classes.linksGeneral}
                                             >
