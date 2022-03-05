@@ -9,7 +9,7 @@ import AdminFeedbacksPage from "../admin/adminFeedbacks.Page"
 import AdminProfilePage from "../admin/adminProfile.Page"
 import AdminQuestionsPage from "../admin/adminQuestions.Page";
 import { useRouteMatch, withRouter } from "react-router-dom";
-
+import PublicFeedbacksPage from "../user/publicFeedbacks.Page";
 const AppRoutes = (props) => {
 
 
@@ -22,6 +22,7 @@ const AppRoutes = (props) => {
             <Route path="/user-profile" component={UserProfilePage} />
             <Route path="/feedback" component={FeedBackPage} />
             <Route path="/previous-feedbacks" component={PreviousFeedbackPage} />
+            <Route path="/public-reviews" component={PublicFeedbacksPage} />
 
             {/* Admin routes */}
             <Route path="/admin-profile" component={AdminProfilePage} />

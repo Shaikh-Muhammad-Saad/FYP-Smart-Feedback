@@ -8,7 +8,7 @@ const Header = (props) => {
     const [dropDownMenu, setDropDownMenu] = useState(false);
     const theme = useTheme();
     const classes = styles(theme); 
-    const role = "admin";
+    const role = "user";
 
     return (<>
         <AppBar position="sticky">

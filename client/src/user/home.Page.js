@@ -49,11 +49,16 @@ const HomePage = (props) => {
                     />
                 </Box>
 
-                {/* <Button endIcon={<ArrowForwardIosIcon/>} style={{ ...classes.headingsGeneral, padding: "20px", color: "#4d79ff", fontWeight: "bold", background: "white", borderRadius: "30px", marginTop: "10px" }}>
-                   <Typography variant="h6">
-                    See Feedbacks
-                   </Typography>
-                </Button> */}
+                {/* PUBLIC FEEDBACKS PAGE BUTTON */}
+                <Button
+                    endIcon={<ArrowForwardIosIcon />}
+                    style={{ ...classes.headingsGeneral, padding: "20px", color: "#4d79ff", fontWeight: "bold", background: "white", borderRadius: "30px", marginTop: "10px" }}
+                    onClick={()=> props.history.push("/public-reviews")}
+                >
+                    <Typography variant="h6">
+                        See Feedbacks
+                    </Typography>
+                </Button>
 
 
             </Grid>
