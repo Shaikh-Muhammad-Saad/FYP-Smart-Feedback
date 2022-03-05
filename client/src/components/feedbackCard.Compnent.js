@@ -15,7 +15,7 @@ const FeedbacksCard = (props) => {
     const rating = 4;
     const feedback = "this is some dummy text to show the user feed back and for the testing of user Interface this is some dummy text to show the user feed back and for the testing of user Interface this is some dummy text to show the user feed back and for the testing of user Interface";
     const role = "user"
-
+    const userName = "Shaikh Muhammad Saad"
     return (<>
         <Grid
             container
@@ -40,8 +40,19 @@ const FeedbacksCard = (props) => {
                 </Typography>
             </Grid>
 
+
+
+
+            {/* divider */}
             <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
                 <Divider sx={{ ...classes.dividerGeneral }} />
+            </Grid>
+
+            {/* user-name container */}
+            <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
+                <Typography color="white" variant="subtitle1" sx={{ fontWeight: "bold", mb:1 }} >
+                    @{userName}
+                </Typography>
             </Grid>
 
             {/* Feedback container */}
@@ -56,7 +67,7 @@ const FeedbacksCard = (props) => {
                 container
                 xs={11} sm={11} md={11} lg={11} xl={11}
                 sx={classes.btnsGrid}
-                justifyContent={isWidth400px? "center" : null}
+                justifyContent={isWidth400px ? "center" : null}
             >
 
                 {role !== "admin" ? (
@@ -77,7 +88,7 @@ const FeedbacksCard = (props) => {
 const styles = (theme) => ({
     conatiner: {
         background: "#4d79ff",
-        borderRadius: "15px",
+        borderRadius: "10px",
         marginTop: "25px"
     },
     date_RatingContainer: {

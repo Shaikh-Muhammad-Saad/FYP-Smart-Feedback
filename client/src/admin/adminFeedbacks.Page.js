@@ -60,6 +60,7 @@ const AdminFeedbacksPage = () => {
         sortByDate.current.style.display = "none"
     };
 
+    const mapingCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     return (<>
         <Header />
@@ -202,28 +203,49 @@ const AdminFeedbacksPage = () => {
 
         {/* USER FEEDBACKS */}
         <Grid container >
-            <Grid 
-            item
-            // sx={{border:"5px solid green"}} 
-            xs={0.5} sm={0.5} md={0.5} lg={0.5} xl={0.5}
-            /> 
-            
+
+            {/* <Grid
+                item
+                sx={{ border: "5px solid green" }}
+                xs={0.5} sm={0.5} md={0.5} lg={0.5} xl={0.5}
+            /> */}
+
             <Grid
                 item
-                xs={11} sm={9} md={9} lg={9} xl={9}
+                container
+                flexDirection={"row"}
+                xs={12} sm={12} md={12} lg={12} xl={12}
+                // style={{ border: "5px solid green" }}
             >
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
-                <FeedbacksCard />
+
+                {
+                    mapingCards.map((val, index) => {
+                        return (
+                            <Grid
+                                key={index}
+                                item
+                                xs={11} sm={11} md={5.5} lg={5.5} xl={5.5}
+                                // sx={{ mt: 0, ml: "2%", mb: 0, mr: 0 }}
+                                sx={{ ml: "2%" }}
+                            >
+                                <FeedbacksCard />
+                            </Grid>
+                        );
+                    })
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
             </Grid>
         </Grid>
 
