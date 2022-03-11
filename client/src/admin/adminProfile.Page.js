@@ -3,7 +3,7 @@ import { Grid, Typography, Button, Divider } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from ".././components/header.Component"
-
+import EditProfileModal from "../components/modal/editProfileModal.Component"
 const AdminProfilePage = () => {
 
     const theme = useTheme();
@@ -56,11 +56,12 @@ const AdminProfilePage = () => {
                 </Grid>
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid}>
-                    <Button variant="contained"  sx={{ background: "#4d79ff" }}>
+                    {/* <Button variant="contained"  sx={{ background: "#4d79ff" }}>
                         <Typography variant="caption">
                             Change
                         </Typography>
-                    </Button>
+                    </Button> */}
+                    <EditProfileModal/>
                 </Grid>
 
             </Grid>

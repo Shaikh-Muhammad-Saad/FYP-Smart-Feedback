@@ -35,14 +35,14 @@ const PublicFeedbackCard = () => {
                     item
                     xs={isWidth340 ? 9 : 7} sm={5} md={6} lg={4} xl={4}
                 >
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>{userName}</Typography>
-                    <Typography variant="subtitle1" fontSize={"small"} > date: {date}</Typography>
                     <Rating
                         readOnly
-                        size={isWidth400 ? "medium" : "large"}
+                        size={isWidth400 ? "small" : "large"}
                         sx={classes.rating}
                         value={value}
                     />
+                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>@{userName}</Typography>
+                    <Typography variant="subtitle1" fontSize={"small"} > date: {date}</Typography>
                 </Grid>
 
                 <Grid

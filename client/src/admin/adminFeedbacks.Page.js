@@ -308,6 +308,9 @@ const styles = (theme) => ({
     latestFeedbacks: {
         width: { xs: "45%", sm: "30%" },
         display: "none"
+    },
+    ratingSelect:{
+        "& .MuiSelect-select:hover" :{ border:"none"}
     }
 
 });

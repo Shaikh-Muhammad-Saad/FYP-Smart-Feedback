@@ -7,6 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Divider from '@mui/material/Divider';
 import React from "react";
 import { usehistory, withRouter } from "react-router-dom"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 const HomePage = (props) => {
@@ -14,6 +15,7 @@ const HomePage = (props) => {
     const isWidth350 = useMediaQuery("(max-width:350px)");
     const windowheight = window.innerHeight;
     const classes = styles(theme, windowheight);
+    const history =  useHistory();
 
     return (<>
         <Grid container direction="row" sx={{ ...classes.mainContainer }}>
@@ -130,9 +132,8 @@ const HomePage = (props) => {
 
                     </Grid>
 
-                    {/* REGISTER BUTTON */}
                     <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
-                        <Button variant="contained" fullWidth>Sign In</Button>
+                        <Button onClick={()=> history.push("/user-profile")} variant="contained" fullWidth>Sign In</Button>
                     </Grid>
 
                     <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
@@ -141,6 +142,7 @@ const HomePage = (props) => {
                         >Register</Divider>
                     </Grid>
 
+                    {/* REGISTER BUTTON */}
                     <Grid item xs={9} sm={9} md={7} lg={9} xl={9} sx={{ ...classes.itemGridmargin }}>
                         <Button
                             variant="contained"

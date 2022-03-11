@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, NavLink } from "react-router-dom";
 import Header from "../components/header.Component.js"
+import EditProfileModal from "../components/modal/editProfileModal.Component";
 
 const UserProfilePage = (props) => {
     const theme = useTheme();
@@ -19,12 +20,12 @@ const UserProfilePage = (props) => {
                 item
                 container
                 justifyContent="center"
-               xs={7} sm={5} md={3} lg={3} xl={3}
+                xs={7} sm={5} md={3} lg={3} xl={3}
             >
                 <img src="/assets/userImage.jpg" width="60%" style={classes.userImage} />
             </Grid>
 
-            <Grid item sm={2} md={1} lg={1} xl={1} sx={{display: isXS? "none": "block"}}>
+            <Grid item sm={2} md={1} lg={1} xl={1} sx={{ display: isXS ? "none" : "block" }}>
                 <Divider orientation="vertical" sx={classes.divider}>
                     Details
                 </Divider>
@@ -56,13 +57,13 @@ const UserProfilePage = (props) => {
                 </Grid>
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid}>
-                    <Button variant="contained"  sx={{ background: "#4d79ff" }}>
+                    {/* <Button variant="contained"  sx={{ background: "#4d79ff" }}>
                         <Typography variant="caption">
                             Change
                         </Typography>
-                    </Button>
+                    </Button> */}
+                    <EditProfileModal />
                 </Grid>
-
             </Grid>
         </Grid>
 
@@ -182,9 +183,9 @@ const styles = (theme) => {
         useerDetailsGrid: {
             marginY: "10px"
         },
-        userDetailsMainContainer:{
-            [theme.breakpoints.only("xs")]:{
-                marginTop:"20px"
+        userDetailsMainContainer: {
+            [theme.breakpoints.only("xs")]: {
+                marginTop: "20px"
             }
         },
         timeRemainingGrid: {
@@ -195,7 +196,7 @@ const styles = (theme) => {
             marginTop: "10px",
             marginBottom: "30px",
             boxShadow: "12px 12px 22px -13px #000000",
-            width:"80%"
+            width: "80%"
         }
     });
 };
