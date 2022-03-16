@@ -1,5 +1,8 @@
 import express from "express";
-import {createUser} from "../../controllers/user/user.Controller.js"
+import {
+    createUser,
+    readAllUsers
+} from "../../controllers/user/user.Controller.js"
 
 const router = express.Router();
 
@@ -7,6 +10,12 @@ const router = express.Router();
 // desc:   creating a user
 // access: NOT-PROTECTED
 router.post("/", createUser);
+
+
+// route:  GET /api/user/
+// desc:   get all users
+// access: PROTECTED
+router.get("/",readAllUsers);
 
 
 export default router;
