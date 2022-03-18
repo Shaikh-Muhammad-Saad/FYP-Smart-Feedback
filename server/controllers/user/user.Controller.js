@@ -1,6 +1,8 @@
 import { response } from "express";
-import userModel from "../../models/user/user.Model.js"
-import bcrypt from "bcrypt"
+import userModel from "../../models/user/user.Model.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { jwt_secrete_key } from "../../config/jwt.js"
 
 
 // route:  POST /api/user/
@@ -39,7 +41,10 @@ const createUser = async (req, res, next) => {
 const readAllUsers = async (req, res, next) => {
     try {
         const users = await userModel.find();
-        res.status(200).send(users);
+        if (!users) {
+            return res.status(500).json({ errorMsg: "server error" });
+        }
+        return res.status(200).send(users);
     }
     catch (err) {
         next(err);
@@ -52,8 +57,8 @@ const readAllUsers = async (req, res, next) => {
 // access: PROTECTED
 const updateUser = async (req, res, next) => {
     try {
-        // const userId = req.user.id  
-        const userId = "62349484b1cedbee13f0bdcf";
+        const userId = req.userId;  
+        // const userId = "6234de111d234428f638f588";
 
         // check if email already exist
         if (await userModel.findOne({ email: req.body.email })) {
@@ -67,8 +72,14 @@ const updateUser = async (req, res, next) => {
         }
 
         const updateduser = { hashPassword, ...req.body }
-        await userModel.updateOne({ _id: userId }, { $set: updateduser });
-        res.status(200).json({ successMsg: "Updated successfully" })
+        const response = await userModel.updateOne({ _id: userId }, { $set: updateduser });
+
+        // checking if document is updated in DB
+        if (response.modifiedCount !== 1) {
+            return res.status(500).json({ errorMsg: "server error" })
+        }
+
+        return res.status(200).json({ successMsg: "Updated successfully" })
     }
     catch (err) {
         next(err);
@@ -81,10 +92,16 @@ const updateUser = async (req, res, next) => {
 // access: PROTECTED
 const deleteUser = async (req, res, next) => {
     try {
-        // const userId = req.user.id  
-        const userId = "62349484b1cedbee13f0bdcf";
-        await userModel.deleteOne({_id: userId});
-        res.status(200).send({ successMsg: "User deleted successfully" });
+        const userId = req.userId;  
+        // const userId = "6234ddaf1d234428f638f584";
+        const response = await userModel.deleteOne({ _id: userId });
+
+        // checking if document is deleted in DB
+        if (response.deletedCount !== 1) {
+            return res.status(500).send({ errorMsg: "server error" });
+        }
+
+        return res.status(200).send({ successMsg: "User deleted successfully" });
     }
     catch (err) {
         next(err);
@@ -92,10 +109,37 @@ const deleteUser = async (req, res, next) => {
 };
 
 
+// route:  POST /api/user/login
+// desc:   login/authenticate user.
+// access: NOT-PROTECTED
+const login = async (req, res, next) => {
+    try {
+        const user = await userModel.findOne({ email: req.body.email });
+
+        // checking if email does not exist
+        if (!user || !await bcrypt.compare(req.body.password, user.hashPassword)) {
+            return res.status(400).json({ errorMsg: "E-mail or Password is incorrect" })
+        }
+
+        // generating json web token
+        const token = await jwt.sign({ id: user._id, role: user.role }, jwt_secrete_key, { expiresIn: "1h" });
+
+        return res
+            .cookie("AuthToken", token, { expire: Date.now() + 3600000 }) //3600000ms is 1hour
+            .status(200)
+            .send(user);
+    }
+    catch (err) {
+        next(err);
+        console.log(err)
+    }
+};
+
 
 export {
     createUser,
     readAllUsers,
     updateUser,
-    deleteUser
+    deleteUser,
+    login
 };
