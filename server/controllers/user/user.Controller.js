@@ -57,7 +57,7 @@ const readAllUsers = async (req, res, next) => {
 // access: PROTECTED
 const updateUser = async (req, res, next) => {
     try {
-        const userId = req.userId;  
+        const userId = req.userId;
         // const userId = "6234de111d234428f638f588";
 
         // check if email already exist
@@ -92,7 +92,7 @@ const updateUser = async (req, res, next) => {
 // access: PROTECTED
 const deleteUser = async (req, res, next) => {
     try {
-        const userId = req.userId;  
+        const userId = req.userId;
         // const userId = "6234ddaf1d234428f638f584";
         const response = await userModel.deleteOne({ _id: userId });
 
@@ -136,10 +136,27 @@ const login = async (req, res, next) => {
 };
 
 
+// route:  POST /api/user/logout
+// desc:   logout user.
+// access: NOT-PROTECTED
+const logout = async (req, res, next) => {
+    try {
+        res
+            .clearCookie("AuthToken")
+            .status(200)
+            .send("user logged out successfully");
+    }
+    catch (err) {
+        next(err);
+        console.log(err)
+    }
+};
+
 export {
     createUser,
     readAllUsers,
     updateUser,
     deleteUser,
-    login
+    login,
+    logout
 };

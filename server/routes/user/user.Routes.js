@@ -4,7 +4,8 @@ import {
     readAllUsers,
     updateUser,
     deleteUser,
-    login
+    login,
+    logout
 } from "../../controllers/user/user.Controller.js"
 import authentication from "../../middlewares/authentication.js"
 
@@ -40,5 +41,12 @@ router.delete("/",authentication, deleteUser);
 // desc:   login/authenticate user.
 // access: NOT-PROTECTED
 router.post("/login", login);
+
+
+
+// route:  POST /api/user/logout
+// desc:   logout user.
+// access: NOT-PROTECTED
+router.post("/logout", logout);
 
 export default router;
