@@ -147,7 +147,7 @@ export default function EditProfileModal() {
 
                         {/* REGISTER BUTTON */}
                         <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
-                            <Button variant="contained" >Save Changes</Button>
+                            <Button  variant="contained" >Save Changes</Button>
                         </Grid>
 
                     </Grid>
@@ -200,7 +200,7 @@ const style = {
     width: { xs: "75%", sm: "50%", md: "30%", lg: "30%", xl: "30%" },
     bgcolor: 'white',
     // border: '1px solid #000',
-    // borderRadius:"20px",
+    borderRadius:"20px",
     boxShadow: 24,
     p: 3,
 };

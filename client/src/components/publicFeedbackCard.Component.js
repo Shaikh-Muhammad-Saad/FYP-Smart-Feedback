@@ -15,7 +15,7 @@ const PublicFeedbackCard = () => {
 
     const userName = "Muhammad Saad";
     const value = 4;
-    const feedback = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a tLorem Ipsum.";
+    const feedback = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the.";
     const date = "2-11-22"
     return (
         <>
@@ -67,7 +67,7 @@ const styles = (theme, windowheight) => {
         mainContainer: {
             background: "white",
             p: 2,
-            boxShadow: "1px 0px 19px 1px rgba(0,0,0,0.75)",
+            boxShadow: "1px 0px 10px 1px rgba(0,0,0,0.30)",
             mb: 4
         },
         image: {

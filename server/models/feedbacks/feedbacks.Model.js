@@ -16,9 +16,17 @@ const feedbacksSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    date:{
+    feedbackDate:{
         type:Date,
         default: Date.now()
+    },
+    date:{
+        type:String,
+        default: new Date().toISOString().split('T')[0]
+    },
+    time:{
+        type: String,
+        default: new Date().toLocaleTimeString()
     }
 
 });

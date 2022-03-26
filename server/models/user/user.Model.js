@@ -16,9 +16,9 @@ const userModelSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role:{
-        type:String,
-        required:true
+    role: {
+        type: String,
+        required: true
     },
     pointsGenerated: {
         type: Number,
@@ -32,11 +32,15 @@ const userModelSchema = new mongoose.Schema({
             type: String,
         },
     },
-    nextFeedback:{
-        type:Date,
-        required:true
+    nextFeedbackDate: {
+        type: Date,
+        required: true
     },
-    userImage:{
+    nextFeedbackTime: {
+        type: String,
+        // required: "true"
+    },
+    userImage: {
         type: String
     }
 });
