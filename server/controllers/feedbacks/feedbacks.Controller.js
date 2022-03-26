@@ -14,9 +14,14 @@ const postFeedback = async (req, res, next) => {
             return res.status(401).json({ errorMsg: 'Unauthorized' }); // 401 for Unauthorized
         }
 
+        // checking if user can give feedback or not || 24 hours completed?
+        if (Date.now() <= user.nextFeedbackDate) {
+            const dateTime = user.nextFeedbackDate + "|" + user.nextFeedbackTime;
+            return res.status(400).json({ errorMsg: `You have to wait till ${dateTime} for your next feedback` }); // 400 for bad request
+        }
+
         const feedback = new feedbacksModel(req.body);
         feedback.userId = req.userId;
-        
         // saving user feedback
         await feedback.save();
 
@@ -56,10 +61,38 @@ const readAllfeedbacks = async (req, res, next) => {
 // route:  DELETE api/feedbacks/:id
 // desc:   delete a single feedback by authenticated user by feedback _id.
 // access: PROTECTED
-const deleteSingleFeedback = (req, res, next) => {
+const deleteSingleFeedback = async (req, res, next) => {
     try {
 
-        // const feedback
+        const response = await feedbacksModel.deleteOne({ id: req.params.id });
+
+        // checking if document is deleted in DB
+        if (response.deletedCount !== 1) {
+            return res.status(500).send({ errorMsg: "server error" });
+        }
+
+        return res.status(200).send({ successMsg: "Deleted successfully" });
+
+    } catch (err) {
+        next(err);
+        console.log(err);
+    }
+};
+
+// route:  PATCH api/feedbacks/:id
+// desc:   Update a single feedback by authenticated user by feedback _id.
+// access: PROTECTED
+const updateSingleFeedback = async (req, res, next) => {
+    try {
+
+        const response = await feedbacksModel.updateOne({ _id: req.params.id }, { $set: { userFeedback: req.body.userFeedback } });
+
+        // checking if document is updated in DB
+        if (response.modifiedCount !== 1) {
+            return res.status(500).json({ errorMsg: "server error" })
+        }
+
+        return res.status(200).send({ successMsg: "Updated successfully" });
 
     } catch (err) {
         next(err);
@@ -71,4 +104,5 @@ export {
     readAllfeedbacks,
     postFeedback,
     deleteSingleFeedback,
+    updateSingleFeedback
 }

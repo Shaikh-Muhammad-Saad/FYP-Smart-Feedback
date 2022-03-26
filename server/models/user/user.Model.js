@@ -38,7 +38,7 @@ const userModelSchema = new mongoose.Schema({
     },
     nextFeedbackTime: {
         type: String,
-        // required: "true"
+        required: "true"
     },
     userImage: {
         type: String
