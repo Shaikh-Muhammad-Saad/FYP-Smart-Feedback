@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import connectDatabase from "./config/databaseConnection.js"
 import userRoutes from "./routes/user/user.Routes.js"
 import feedbacksRoutes from "./routes/feedbacks/feedbacks.Routes.js"
+import questionRoutes from "./routes/questions/questions.Routes.js"
 import errorHandler from "./middlewares/errorHandler.js"
 
 // database connection
@@ -17,6 +18,7 @@ app.use(express.json());
 // api routes
 app.use("/api/user", userRoutes);
 app.use("/api/feedbacks", feedbacksRoutes);
+app.use("/api/questions", questionRoutes);
 
 app.use(errorHandler)
 
