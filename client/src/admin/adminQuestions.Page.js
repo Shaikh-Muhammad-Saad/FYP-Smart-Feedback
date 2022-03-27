@@ -1,14 +1,35 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Grid, Typography, TextField, Button } from "@mui/material"
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import QuestionCardComponent from "../components/questionCard.Component"
 import Header from "../components/header.Component"
+import axios from "axios";
 
 const AdminQuestionsPage = () => {
+    const [questions, setQuestions] = useState([]);
+    const [question, setQuestion] = useState();
     const theme = useTheme();
     const classes = styles(theme);
     const isXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+    useEffect(async () => {
+        const res = await axios.get("http://localhost:5555/api/questions/");
+        setQuestions(res.data);
+    }, [questions]);
+
+    const addQuestion = async () => {
+        try {
+            const body= {question}
+            const res = await axios.post(`http://localhost:5555/api/questions/`, body)
+            alert(res.data.successMsg);
+
+
+        } catch (err) {
+            console.log(err.response);
+            alert(err.response.data.errorMsg)
+        }
+    }
 
     return (<>
         <Header />
@@ -19,23 +40,25 @@ const AdminQuestionsPage = () => {
             </Grid>
 
             <Grid item container direction={isXS ? "column" : "row"} alignItems={isXS ? "start" : ""} xs={11.5} sm={11.5} md={11.5} lg={11.5} xl={11.5}>
-                <TextField type="text" multiline rows={isXS ? 4 : 1} sx={classes.addTextField} size="small" label="Add question" variant="outlined" />
-                <Button variant="contained" size="medium" sx={classes.addBtn}>Add</Button>
+                <TextField onChange={(e)=> setQuestion(e.target.value) } type="text" multiline rows={isXS ? 4 : 1} sx={classes.addTextField} size="small" label="Add question" variant="outlined" />
+                <Button onClick={()=> addQuestion() } variant="contained" size="medium" sx={classes.addBtn}>Add</Button>
             </Grid>
 
         </Grid>
 
-        <Grid container sx={classes.questionsContainer}> 
+        <Grid container sx={classes.questionsContainer}>
 
             <Grid item xs={0.5} sm={0.5} md={0.5} lg={0.5} xl={0.5} />
 
             <Grid item xs={11} sm={8} md={8} lg={8} xl={8}>
-                <QuestionCardComponent question="How would you rate the quality of the food at our restaurant? How would you rate the quality of the food at our restaurant?" />
-                <QuestionCardComponent question="How would you rate the quality of the food at our restaurant? How would you rate the quality of the food at our restaurant? How would you rate the quality of the food at our restaurant? How would you rate the quality of the food at our restaurant?" />
-                <QuestionCardComponent question="How would you rate the quality of the food at our restaurant?" />
-                <QuestionCardComponent question="How would you rate the quality of the food at our restaurant?" />
-                <QuestionCardComponent question="How would you rate the quality of the food at our restaurant?" />
-                <QuestionCardComponent question="How would you rate the quality of the food at our restaurant?" />
+
+                {
+                    questions?.map((val) => {
+                        return (
+                            <QuestionCardComponent cardvalue={val} />
+                        )
+                    })
+                }
             </Grid>
 
         </Grid>
@@ -57,8 +80,8 @@ const styles = () => {
         addTextField: {
             width: { xs: "70%", sm: "50%", md: "50%", lg: "50%", xl: "50%" }
         },
-        questionsContainer:{
-            mt:{ xs: 5, sm: 7, md: 7, lg: 7, xl: 7 }
+        questionsContainer: {
+            mt: { xs: 5, sm: 7, md: 7, lg: 7, xl: 7 }
         }
     })
 };

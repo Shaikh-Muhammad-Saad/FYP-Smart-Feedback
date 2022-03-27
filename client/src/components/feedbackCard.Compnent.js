@@ -10,11 +10,14 @@ const FeedbacksCard = ({ cardData }) => {
     const theme = useTheme();
     const isWidth400px = useMediaQuery("(max-width:400px)");
     const classes = styles(theme);
+    const user = JSON.parse(localStorage.getItem("user")) ;
+
 
     const date = cardData?.date + "  |  " + cardData?.time;
     const rating = cardData?.averageRating;
     const feedback = cardData?.userFeedback;
-    const role = "user"
+    const userName = cardData?.userId?.userName;
+    const role = user.role;
 
 
     const onDelete = async (feedbackId) => {
@@ -61,11 +64,16 @@ const FeedbacksCard = ({ cardData }) => {
             </Grid>
 
             {/* user-name container */}
-            {/* <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
+            {
+                role == "admin"?(<>
+                
+            <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
                 <Typography color="white" variant="subtitle1" sx={{ fontWeight: "bold", mb:1 }} >
                     @{userName}
                 </Typography>
-            </Grid> */}
+            </Grid>
+                </>): null
+            }
 
             {/* Feedback container */}
             <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>

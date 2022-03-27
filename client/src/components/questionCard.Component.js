@@ -1,23 +1,77 @@
-import React from "react"
+import React, { useState } from "react"
 import { Grid, Typography, TextField, Button } from "@mui/material"
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import axios from "axios";
 
-const QuestionCardComponent = ({ question }) => {
+const QuestionCardComponent = ({ cardvalue }) => {
+    const [isEdit, setIsEdit] = useState(false)
+    const [question, setQuestion] = useState()
+
     const theme = useTheme();
     const classes = styles(theme);
     const isXS = useMediaQuery(theme.breakpoints.only("xs"));
 
+    const onDelete = async (id) => {
+        try {
+            const res = await axios.delete(`http://localhost:5555/api/questions/${id}`)
+            alert(res.data.successMsg);
+
+        } catch (err) {
+            console.log(err.response);
+            alert(err.response.data.errorMsg)
+        }
+    }
+
+
+    const onUpdate = async (id) => {
+        try {
+            const body = {question};
+            const res = await axios.patch(`http://localhost:5555/api/questions/${id}`, body)
+            alert(res.data.successMsg);
+
+        } catch (err) {
+            console.log(err.response);
+            alert(err.response.data.errorMsg)
+        }
+    }
+
+
+    console.log(1)
     return (<>
         <Grid container sx={classes.container}>
 
-            <Grid item>
-                <Typography >{question}</Typography>
-            </Grid>
+            {
+                isEdit ?
+                    (<>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <TextField 
+                            type={"text"} 
+                            defaultValue={cardvalue?.question}  
+                            fullWidth
+                            onChange={(e)=>setQuestion(e.target.value)}
+                            />
+                        </Grid>
+                    </>) :
+                    (<>
+                        <Grid item>
+                            <Typography >{cardvalue?.question}</Typography>
+                        </Grid>
+
+                    </>)
+            }
 
             <Grid item container>
-                <Button variant="contained" sx={{ ...classes.editBtn }}>Edit</Button>
-                <Button sx={{ ...classes.deleteBtn }}>Delete</Button>
+                {
+                   !isEdit?
+                    <Button onClick={() => setIsEdit(true)} variant="contained" sx={{ ...classes.editBtn }}>Edit</Button>
+                    :
+                    (<>
+                    <Button onClick={() => onUpdate(cardvalue?._id)} variant="contained" sx={{ ...classes.editBtn }}>Update</Button>
+                    <Button onClick={() => setIsEdit(false)} variant="contained" sx={{ ...classes.editBtn }}>Cancel</Button>
+                    </>)
+                }
+                <Button onClick={() => onDelete(cardvalue?._id)} sx={{ ...classes.deleteBtn }}>Delete</Button>
             </Grid>
 
         </Grid>
@@ -26,11 +80,11 @@ const QuestionCardComponent = ({ question }) => {
 
 const styles = () => {
     return ({
-        container:{
-            border:"3px solid #4d79ff",
-            p:"20px",
-            borderRadius:"30px",
-            mb:{ xs: "10px", sm: "15px", md: "15px", lg: "15px", xl: "15px" }
+        container: {
+            border: "3px solid #4d79ff",
+            p: "20px",
+            borderRadius: "30px",
+            mb: { xs: "10px", sm: "15px", md: "15px", lg: "15px", xl: "15px" }
         },
         deleteBtn: {
             background: "#ff3333",
@@ -39,7 +93,7 @@ const styles = () => {
             margin: "10px",
             marginLeft: "0px",
             border: "2px solid #ff3333",
-            "&:hover": { border: "2px solid white" , color:"red"}
+            "&:hover": { border: "2px solid white", color: "red" }
         },
         editBtn: {
             // background: "white",
@@ -48,7 +102,7 @@ const styles = () => {
             margin: "10px",
             marginLeft: "0px",
             "&:hover": {
-                color: "white", 
+                color: "white",
             }
         },
     })

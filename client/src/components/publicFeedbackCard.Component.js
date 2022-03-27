@@ -5,18 +5,18 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Rating from '@mui/material/Rating';
 
 
-const PublicFeedbackCard = () => {
-
+const PublicFeedbackCard = ({cardValue}) => {
+    console.log(cardValue)
     const theme = useTheme();
     const isWidth340 = useMediaQuery("(max-width:340px)");
     const isWidth400 = useMediaQuery("(max-width:400px)");
     const windowheight = window.innerHeight;
     const classes = styles(theme, windowheight);
 
-    const userName = "Muhammad Saad";
-    const value = 4;
-    const feedback = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the.";
-    const date = "2-11-22"
+    const userName = cardValue?.userId.userName;
+    const value = cardValue?.averageRating;
+    const feedback = cardValue?.userFeedback ;
+    const date = cardValue?.date
     return (
         <>
             <Grid container sx={classes.mainContainer}>

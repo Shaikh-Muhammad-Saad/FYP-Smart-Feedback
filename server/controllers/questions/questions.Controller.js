@@ -40,7 +40,7 @@ const readQuestions = async (req, res, next) => {
 
 // route:  DELETE /api/questions/:id
 // desc:   deleting a question by question id
-// access: PROTECTEDD
+// access: PROTECTED
 const deleteQuestion = async (req, res, next) => {
     try {
         const response = await questionsModel.deleteOne({ _id: req.params.id });

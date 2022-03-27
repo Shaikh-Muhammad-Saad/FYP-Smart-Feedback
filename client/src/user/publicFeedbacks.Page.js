@@ -1,17 +1,23 @@
-import React from "react"
+import React , {useEffect, useState}from "react"
 import { Grid, Typography } from "@mui/material"
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PublicFeedbackCard from "../components/publicFeedbackCard.Component"
+import axios from "axios";
 
 const PublicFeedbacksPage = () => {
-
+    const [generalFeedbacks, setGeneralFeedbacks] = useState([]);
     const theme = useTheme();
     const isWidth350 = useMediaQuery("(max-width:350px)");
     const windowheight = window.innerHeight;
     const classes = styles(theme, windowheight);
 
-    const maping = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+    useEffect(async () => {
+        const res = await axios.get("http://localhost:5555/api/feedbacks/");
+        setGeneralFeedbacks(res.data.reverse());
+    }, []);
+
     return (
         <>
             <Grid container sx={classes.mainContainer}>
@@ -27,7 +33,7 @@ const PublicFeedbacksPage = () => {
                 </Grid>
 
                 {
-                    maping.map((val, index) => {
+                    generalFeedbacks?.map((val, index) => {
                         return (
                             <>
                                 <Grid
@@ -36,7 +42,7 @@ const PublicFeedbacksPage = () => {
                                     xs={11.5} sm={11} md={5.5} lg={5.5} xl={5.5}
                                     sx={{ ml: "2%" }}
                                 >
-                                    <PublicFeedbackCard />
+                                    <PublicFeedbackCard cardValue={val}/>
                                 </Grid>
                             </>
                         );

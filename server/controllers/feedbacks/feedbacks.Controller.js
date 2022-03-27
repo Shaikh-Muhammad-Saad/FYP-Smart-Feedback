@@ -15,10 +15,10 @@ const postFeedback = async (req, res, next) => {
         }
 
         // checking if user can give feedback or not || 24 hours completed?
-        if (Date.now() <= user.nextFeedbackDate) {
-            const dateTime = user.nextFeedbackDate + "|" + user.nextFeedbackTime;
-            return res.status(400).json({ errorMsg: `You have to wait till ${dateTime} for your next feedback` }); // 400 for bad request
-        }
+        // if (Date.now() <= user.nextFeedbackDate) {
+        //     const dateTime = user.nextFeedbackDate + "|" + user.nextFeedbackTime;
+        //     return res.status(400).json({ errorMsg: `You have to wait till ${dateTime} for your next feedback` }); // 400 for bad request
+        // }
 
         const feedback = new feedbacksModel(req.body);
         feedback.userId = req.userId;
@@ -65,7 +65,45 @@ const readAllfeedbacks = async (req, res, next) => {
 // access: NOT-PROTECTED
 const readUserFeedbacks = async (req, res, next) => {
     try {
-        const feedbacks = await feedbacksModel.find({userId: req.params.id })
+        const feedbacks = await feedbacksModel.find({userId: req.params.id }).populate("userId");
+
+        if (!feedbacks) {
+            return res.status(500).json({ errorMsg: "Server Error" });
+        }
+        return res.status(200).send(feedbacks);
+    } catch (err) {
+        next(err);
+        console.log(err);
+    }
+};
+
+
+// route:  POST api/feedbacks/feedbacksByDate
+// desc:   reading all feedbacks by date filter.
+// access: NOT-PROTECTED
+const getFeedbacksByDate = async (req, res, next) => {
+    try {
+
+        const feedbacks = await feedbacksModel.find({date: req.body.date }).populate("userId");
+
+        if (!feedbacks) {
+            return res.status(500).json({ errorMsg: "Server Error" });
+        }
+        return res.status(200).send(feedbacks);
+    } catch (err) {
+        next(err);
+        console.log(err);
+    }
+};
+
+
+// route:  POST api/feedbacks/feedbacksByRating
+// desc:   reading all feedbacks by rating.
+// access: NOT-PROTECTED
+const getFeedbacksByRating = async (req, res, next) => {
+    try {
+
+        const feedbacks = await feedbacksModel.find({averageRating: req.body.rating }).populate("userId");
 
         if (!feedbacks) {
             return res.status(500).json({ errorMsg: "Server Error" });
@@ -125,5 +163,7 @@ export {
     postFeedback,
     deleteSingleFeedback,
     updateSingleFeedback,
-    readUserFeedbacks
+    readUserFeedbacks,
+    getFeedbacksByDate,
+    getFeedbacksByRating
 }

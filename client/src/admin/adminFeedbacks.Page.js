@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -13,8 +13,17 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import FeedbacksCard from "../components/feedbackCard.Compnent"
+import axios from "axios";
+
+
+
 
 const AdminFeedbacksPage = () => {
+    const [generalFeedbacks, setGeneralFeedbacks] = useState([]);
+    const [rating, setRating] = React.useState();
+    const [date, setDate] = React.useState();
+    const [feedbacksByDate, setFeedbacksByDate] = React.useState();
+    const [feedbacksByRating, setFeedbacksByRating] = React.useState();
 
     const theme = useTheme();
     const sortBylatestFeedbacks = useRef();
@@ -25,9 +34,8 @@ const AdminFeedbacksPage = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
-    const [rating, setRating] = React.useState();
+
     const [day, setDay] = React.useState();
-    const [date, setDate] = React.useState(null);
     console.log(date)
     console.log(rating)
     console.log(day);
@@ -60,7 +68,39 @@ const AdminFeedbacksPage = () => {
         sortByDate.current.style.display = "none"
     };
 
-    const mapingCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+
+    useEffect(async () => {
+        const res = await axios.get("http://localhost:5555/api/feedbacks/");
+        setGeneralFeedbacks(res.data);
+    }, []);
+
+
+    const getFeedbacksByDate = async () => {
+        try {
+            const body = { date }
+            const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByDate", body)
+            setFeedbacksByDate(res.data);
+            setGeneralFeedbacks([]);
+            setFeedbacksByRating([]);
+
+        } catch (err) {
+            console.log(err.response);
+        }
+    }
+
+    const getFeedbacksByRating = async() => {
+        try {
+            const body = { rating }
+            const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByRating", body)
+            setFeedbacksByRating(res.data);
+            setFeedbacksByDate([]);
+            setGeneralFeedbacks([]);
+
+        } catch (err) {
+            console.log(err.response);
+        } 
+    }
 
     return (<>
         <Header />
@@ -115,7 +155,6 @@ const AdminFeedbacksPage = () => {
                 >
                     <MenuItem onClick={handelDateDisplay}>Sort By Date</MenuItem>
                     <MenuItem onClick={handelRatingDisplay}>Sort By Rating</MenuItem>
-                    <MenuItem onClick={handelLatestFeedbackDisplay}>Latest Feedbacks</MenuItem>
                 </Menu>
             </Grid>
         </Grid>
@@ -136,39 +175,63 @@ const AdminFeedbacksPage = () => {
                 xs={12} sm={12} md={12} lg={12} xl={12}
                 sx={classes.DatePickerGrid}
             >
+                <Grid container direction="row" justifyContent={"center"} alignItems={"center"} ref={sortByDate} sx={{ ...classes.datePicker }}>
+                    <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                        <TextField
+                            id="date"
+                            label="Sort By Date"
+                            type="date"
+                            defaultValue={date}
+                            fullWidth
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={(e) => setDate(e.target.value)}
+                        // ref={sortByDate}
+                        />
+                    </Grid>
 
-                <TextField
-                    id="date"
-                    label="Sort By Date"
-                    type="date"
-                    defaultValue={date}
-                    fullWidth
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    sx={{ ...classes.datePicker }}
-                    onChange={(e) => setDate(e.target.value)}
-                    ref={sortByDate}
-                />
+                    <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
+                        <Button onClick={() => getFeedbacksByDate()} variant="contained" sx={classes.searchBtn}>
+                            search
+                        </Button>
+                    </Grid>
+
+
+                </Grid>
+
+
 
                 {/* Rating Box */}
                 <Box ref={sortByRating} sx={{ ...classes.ratingBox }}>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Select Rating</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={rating}
-                            label="Select Rating"
-                            onChange={(e) => setRating(e.target.value)}
-                        >
-                            <MenuItem value={1}>1 Star</MenuItem>
-                            <MenuItem value={2}>2 Star</MenuItem>
-                            <MenuItem value={3}>3 Star</MenuItem>
-                            <MenuItem value={4}>4 Star</MenuItem>
-                            <MenuItem value={5}>5 Star</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <Grid container flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
+                        <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Select Rating</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={rating}
+                                    label="Select Rating"
+                                    onChange={(e) => setRating(e.target.value)}
+                                >
+                                    <MenuItem value={0}>0 Star</MenuItem>
+                                    <MenuItem value={1}>1 Star</MenuItem>
+                                    <MenuItem value={2}>2 Star</MenuItem>
+                                    <MenuItem value={3}>3 Star</MenuItem>
+                                    <MenuItem value={4}>4 Star</MenuItem>
+                                    <MenuItem value={5}>5 Star</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+
+                        {/* Search Button */}
+                        <Grid item xs={3} sm={3} md={3} lg={3} xl={3} >
+                            <Button onClick={()=> getFeedbacksByRating() } variant="contained" sx={classes.searchBtn}>
+                                search
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Box>
 
                 {/* latest Feedbacks search */}
@@ -192,9 +255,11 @@ const AdminFeedbacksPage = () => {
                 </Box>
 
                 {/* Search Button */}
-                <Button variant="contained" sx={classes.searchBtn}>
+                {/* <Button variant="contained" sx={classes.searchBtn}>
                     search
-                </Button>
+                </Button> */}
+
+
             </Grid>
 
 
@@ -215,20 +280,50 @@ const AdminFeedbacksPage = () => {
                 container
                 flexDirection={"row"}
                 xs={12} sm={12} md={12} lg={12} xl={12}
-                // style={{ border: "5px solid green" }}
+            // style={{ border: "5px solid green" }}
             >
 
                 {
-                    mapingCards.map((val, index) => {
+                    generalFeedbacks?.map((val, index) => {
                         return (
                             <Grid
                                 key={index}
                                 item
-                                xs={11} sm={11} md={5.5} lg={5.5} xl={5.5}
+                                xs={11} sm={11} md={11} lg={11} xl={11}
                                 // sx={{ mt: 0, ml: "2%", mb: 0, mr: 0 }}
                                 sx={{ ml: "2%" }}
                             >
-                                <FeedbacksCard />
+                                <FeedbacksCard cardData={val} />
+                            </Grid>
+                        );
+                    })
+                }
+                {
+                    feedbacksByDate?.map((val, index) => {
+                        return (
+                            <Grid
+                                key={index}
+                                item
+                                xs={11} sm={11} md={11} lg={11} xl={11}
+                                // sx={{ mt: 0, ml: "2%", mb: 0, mr: 0 }}
+                                sx={{ ml: "2%" }}
+                            >
+                                <FeedbacksCard cardData={val} />
+                            </Grid>
+                        );
+                    })
+                }
+                {
+                    feedbacksByRating?.map((val, index) => {
+                        return (
+                            <Grid
+                                key={index}
+                                item
+                                xs={11} sm={11} md={11} lg={11} xl={11}
+                                // sx={{ mt: 0, ml: "2%", mb: 0, mr: 0 }}
+                                sx={{ ml: "2%" }}
+                            >
+                                <FeedbacksCard cardData={val} />
                             </Grid>
                         );
                     })
@@ -282,11 +377,11 @@ const styles = (theme) => ({
         marginTop: "15px",
         paddingTop: "15px",
         paddingBottom: "15px",
-        display: "none"
+        display: "none",
     },
     searchBtn: {
         height: "50px",
-        marginLeft: "1%",
+        marginLeft: "2%",
         [theme.breakpoints.only("xs")]: { marginTop: "5px" }
     },
     DatePickerGrid: {
@@ -309,8 +404,8 @@ const styles = (theme) => ({
         width: { xs: "45%", sm: "30%" },
         display: "none"
     },
-    ratingSelect:{
-        "& .MuiSelect-select:hover" :{ border:"none"}
+    ratingSelect: {
+        "& .MuiSelect-select:hover": { border: "none" }
     }
 
 });

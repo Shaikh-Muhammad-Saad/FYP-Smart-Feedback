@@ -5,7 +5,9 @@ import {
     postFeedback,
     deleteSingleFeedback,
     updateSingleFeedback,
-    readUserFeedbacks
+    readUserFeedbacks,
+    getFeedbacksByDate,
+    getFeedbacksByRating
 } from "../../controllers/feedbacks/feedbacks.Controller.js"
 import authentication from "../../middlewares/authentication.js"
 
@@ -28,6 +30,18 @@ router.get("/", readAllfeedbacks);
 // desc:   reading authenticated user feedbacks.
 // access: NOT-PROTECTED
 router.get("/:id", readUserFeedbacks);
+
+
+// route:  POST api/feedbacks/feedbacksByDate
+// desc:   reading all feedbacks by date filter.
+// access: NOT-PROTECTED
+router.post("/feedbacksByDate", getFeedbacksByDate);
+
+
+// route:  POST api/feedbacks/feedbacksByRating
+// desc:   reading all feedbacks by date rating.
+// access: NOT-PROTECTED
+router.post("/feedbacksByRating", getFeedbacksByRating);
 
 
 // route:  DELETE api/feedbacks/:id
