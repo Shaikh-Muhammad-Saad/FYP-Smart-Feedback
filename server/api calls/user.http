@@ -4,12 +4,10 @@ Content-Type: application/json
 
 {
     "userName": "saad01",
-    "email": "smsidrees2@gmail.com",
-    "password": "saad02",
-    "contact": {
-        "phone1": "abcdefg",
-        "phone2": "0123456"
-    }
+    "email": "smsidrees1@gmail.com",
+    "password": "saad01",
+     "phone1": "123456"
+    
 }
 
 ###

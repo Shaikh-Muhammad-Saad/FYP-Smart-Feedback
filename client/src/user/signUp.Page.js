@@ -3,15 +3,46 @@ import { useTheme } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link } from "react-router-dom";
-import react from "react"
+import { Link, useHistory } from "react-router-dom";
+import react, { useState } from "react"
+import axios from "axios";
 
 const SignUpPage = () => {
+    const [email, setEmail] = useState();
+    const [userName, setUserName] = useState();
+    const [phone1, setPhone1] = useState();
+    const [password, setPassword] = useState();
+    const [confirmPassword, setConfirmPassword] = useState();
+
+    const history = useHistory();
     const theme = useTheme();
     const isWidth350 = useMediaQuery("(max-width:350px)");
     const windowheight = window.innerHeight;
-    const classes = styles(theme,windowheight);
+    const classes = styles(theme, windowheight);
+
+
+    // console.log(email, userName, phone1, password, confirmPassword);
+
+    const onSubmit = async (email, userName, phone1, password, confirmPassword) => {
+
+        if (password !== confirmPassword) {
+            alert("Password must match Confirm password");
+        }
+
+        try {
+            const body = { email, userName, phone1, password, confirmPassword };
+            const res = await axios.post("http://localhost:5555/api/user/", body);
+            alert(res.data.successMsg);
+            history.push("/");
+        } catch (err) {
+            console.log(err.response)
+            alert(err.response.data.errorMsg)
+        }
+
+        console.log(email, userName, phone1, password, confirmPassword);
+    };
 
     return (
         <>
@@ -51,7 +82,7 @@ const SignUpPage = () => {
                         </Grid>
 
                         <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                            <TextField type="email" required variant="standard" fullWidth  label="E-mail" />
+                            <TextField onChange={(e) => setEmail(e.target.value)} type="email" required variant="standard" fullWidth label="E-mail" />
                         </Grid>
 
                     </Grid>
@@ -71,9 +102,37 @@ const SignUpPage = () => {
 
                         <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
                             <TextField
+                                type="text"
+                                variant="standard"
+                                fullWidth label="Username"
+                                onChange={(e) => setUserName(e.target.value)}
+                            />
+                        </Grid>
+
+                    </Grid>
+
+
+                    {/* PHONEs TXT FIELD */}
+                    <Grid
+                        item
+                        container
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="end"
+                        sx={{ ...classes.itemGridmargin }}
+                    >
+                        <Grid item xs={isWidth350 ? 1.5 : 1} sm={1} md={1} lg={1} xl={1}>
+                            <LocalPhoneIcon sx={{ ...classes.iconsGeneral }} />
+                        </Grid>
+
+                        <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
+                            <TextField
                                 type="email"
                                 variant="standard"
-                                fullWidth label="Username" />
+                                fullWidth
+                                label="Phone"
+                                onChange={(e) => setPhone1(e.target.value)}
+                            />
                         </Grid>
 
                     </Grid>
@@ -96,7 +155,9 @@ const SignUpPage = () => {
                                 type="password"
                                 variant="standard"
                                 fullWidth
-                                label="Password" />
+                                label="Password"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
                         </Grid>
 
                     </Grid>
@@ -119,14 +180,18 @@ const SignUpPage = () => {
                             <TextField
                                 type="password"
                                 variant="standard"
-                                fullWidth label="Confirm password" />
+                                fullWidth label="Confirm password"
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
                         </Grid>
 
                     </Grid>
 
                     {/* REGISTER BUTTON */}
                     <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
-                        <Button variant="contained" fullWidth>Register User</Button>
+                        <Button onClick={() => onSubmit(email, userName, phone1, password, confirmPassword)} variant="contained" fullWidth>
+                            Register User
+                        </Button>
                         <Typography variant="subtitle2" align="center" sx={{ marginTop: "15px" }} >
                             <Link to="/">
                                 Already registerd? Signin
@@ -142,7 +207,7 @@ const SignUpPage = () => {
 };
 
 
-const styles = (theme,windowheight) => {
+const styles = (theme, windowheight) => {
     return (
         {
             mainContainer: {

@@ -8,11 +8,18 @@ import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import CloseIcon from '@mui/icons-material/Close';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link } from "react-router-dom";
+import { Link , useHistory} from "react-router-dom";
+import axios from 'axios';
 
 
 
-export default function EditProfileModal() {
+export default function EditProfileModal({ userData }) {
+    const [email, setEmail] = React.useState();
+    const [password, setPassword] = React.useState();
+    const [userName, setUserName] = React.useState();
+    const [phone1, setPhone1] = React.useState();
+
+    const history = useHistory();
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const isWidth350 = useMediaQuery("(max-width:350px)");
@@ -22,6 +29,18 @@ export default function EditProfileModal() {
     //   handlers
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const submit = async (userName, email, phone1, password) => {
+        try {
+            const body = { userName, email, phone1 , password };
+            const res = await axios.patch("http://localhost:5555/api/user/", body);
+            alert(res.data.successMsg);
+
+        } catch (err) {
+            console.log(err.response);
+            alert(err.response.data.errorMsg)
+        }
+    };
 
     return (
         <div>
@@ -38,7 +57,7 @@ export default function EditProfileModal() {
 
 
                     <Grid item container justifyContent={"end"}>
-                        <CloseIcon sx={classes.crossIcon}  onClick={handleClose} />
+                        <CloseIcon sx={classes.crossIcon} onClick={handleClose} />
                     </Grid>
                     <br />
                     <br />
@@ -72,7 +91,7 @@ export default function EditProfileModal() {
                             </Grid>
 
                             <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                                <TextField type="email" required variant="standard" fullWidth label="E-mail" />
+                                <TextField onChange={(e) => setEmail(e.target.value)} type="email" required variant="standard" fullWidth label="E-mail" />
                             </Grid>
 
                         </Grid>
@@ -92,9 +111,11 @@ export default function EditProfileModal() {
 
                             <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
                                 <TextField
-                                    type="email"
+                                    type="text"
                                     variant="standard"
-                                    fullWidth label="Username" />
+                                    fullWidth label="Username"
+                                    onChange={(e) => setUserName(e.target.value)}
+                                />
                             </Grid>
 
                         </Grid>
@@ -117,7 +138,9 @@ export default function EditProfileModal() {
                                     type="password"
                                     variant="standard"
                                     fullWidth
-                                    label="Password" />
+                                    label="Password"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
                             </Grid>
 
                         </Grid>
@@ -138,16 +161,16 @@ export default function EditProfileModal() {
 
                             <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
                                 <TextField
-                                    type="password"
+                                    type="text"
                                     variant="standard"
-                                    fullWidth label="Confirm password" />
+                                    fullWidth label="Phone" />
                             </Grid>
 
                         </Grid>
 
-                        {/* REGISTER BUTTON */}
+                        {/* save button BUTTON */}
                         <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
-                            <Button  variant="contained" >Save Changes</Button>
+                            <Button variant="contained" onClick={() => submit(userName, email, phone1, password)} >Save Changes</Button>
                         </Grid>
 
                     </Grid>
@@ -180,12 +203,12 @@ const styles = (theme, windowheight) => {
             iconsGeneral: {
                 color: "#4d79ff"
             },
-            crossIcon:{
-                color:"grey",
-                borderRadius:"100%",
-                p:1,
+            crossIcon: {
+                color: "grey",
+                borderRadius: "100%",
+                p: 1,
                 "&:hover": {
-                    bgcolor:"lightgrey"
+                    bgcolor: "lightgrey"
                 }
             }
 
@@ -200,7 +223,7 @@ const style = {
     width: { xs: "75%", sm: "50%", md: "30%", lg: "30%", xl: "30%" },
     bgcolor: 'white',
     // border: '1px solid #000',
-    borderRadius:"20px",
+    borderRadius: "20px",
     boxShadow: 24,
     p: 3,
 };

@@ -5,6 +5,12 @@ import questionsModel from "../../models/questions/questions.Model.js"
 // access: PROTECTED
 const createQuestion = async (req, res, next) => {
     try {
+
+        const isGreater = (await questionsModel.countDocuments({})) >= 10;
+        if(isGreater){
+            return res.status(400).json({ errorMsg: "Maximim questions range is 10" }); //201 for created
+        }
+
         const question = new questionsModel(req.body);
         await question.save();
         return res.status(201).json({ successMsg: "Question generated!" }); //201 for created
@@ -14,6 +20,7 @@ const createQuestion = async (req, res, next) => {
         console.log(err);
     }
 };
+
 
 // route:  GET /api/questions/
 // desc:   reading  questions
@@ -56,7 +63,7 @@ const deleteQuestion = async (req, res, next) => {
 // access: PROTECTEDD
 const updateQuestion = async (req, res, next) => {
     try {
-        const response = await questionsModel.updateOne({ _id: req.params.id }, {$set:{question: req.body.question}});
+        const response = await questionsModel.updateOne({ _id: req.params.id }, { $set: { question: req.body.question } });
 
         // checking if document is updated in DB
         if (response.modifiedCount !== 1) {

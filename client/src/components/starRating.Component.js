@@ -37,7 +37,10 @@ const StarRatingComponent = (props) => {
             >
                 <Rating
                     sx={classes.rating}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e) => {
+                        props.setRating(parseInt(e.target.value))
+                        setValue(e.target.value)
+                    }}
                     value={value}
                 />
                 <Typography variant="body1" sx={classes.ratingNumber}>
@@ -46,7 +49,7 @@ const StarRatingComponent = (props) => {
             </Grid>
 
         </Grid>
-        <Divider sx={{ ...classes.dividerGeneral}} />
+        <Divider sx={{ ...classes.dividerGeneral }} />
     </>)
 };
 

@@ -23,22 +23,20 @@ const userModelSchema = new mongoose.Schema({
     pointsGenerated: {
         type: Number,
     },
-    contact: {
-        phone1: {
-            type: String,
-            required: true
-        },
-        phone2: {
-            type: String,
-        },
+
+    phone1: {
+        type: String,
+        required: true
     },
+
+
     nextFeedbackDate: {
         type: Date,
-        required: true
+        // required: true
     },
     nextFeedbackTime: {
         type: String,
-        required: "true"
+        // required: "true"
     },
     userImage: {
         type: String

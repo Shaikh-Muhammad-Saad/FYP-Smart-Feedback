@@ -5,7 +5,7 @@ const authentication = async (req, res, next) => {
     try {
         // token from cookie
         const authCookieToken = req.cookies.AuthToken;
-
+        console.log(req.cookies);
         // checking if cookie has expired
         if (!authCookieToken) {
             return res.status(401).json({ errorMsg: 'Unauthorized' });

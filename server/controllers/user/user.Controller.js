@@ -52,6 +52,23 @@ const readAllUsers = async (req, res, next) => {
 };
 
 
+// route:  GET /api/user/:id
+// desc:   get a single user by id
+// access: PROTECTED
+const getAsingleUser = async (req, res, next) => {
+    try {
+        const user = await userModel.findById(req.params.id);
+        if (!user) {
+            return res.status(500).json({ errorMsg: "server error" });
+        }
+        return res.status(200).send(user);
+    }
+    catch (err) {
+        next(err);
+    }
+};
+
+
 // route:  PATCH /api/user/
 // desc:   update authenticated user
 // access: PROTECTED
@@ -60,18 +77,32 @@ const updateUser = async (req, res, next) => {
         const userId = req.userId;
         // const userId = "6234de111d234428f638f588";
 
+        const updateduser = {};
+
+
         // check if email already exist
         if (await userModel.findOne({ email: req.body.email })) {
             res.status(400).json({ errorMsg: "E-mail already exist" });// 400 for bad request
+        }
+        if (req.body.email !== undefined) {
+            updateduser.email = req.body.email;
+        }
+        if (req.body.userName !== undefined) {
+            updateduser.userName = req.body.userName;
+
+        }
+        if (req.body.phone1 !== undefined) {
+            updateduser.phone1 = req.body.phone1;
+
         }
 
         //hashing password
         let hashPassword;
         if (req.body.password !== undefined) {
             hashPassword = await bcrypt.hash(req.body.password, 10);
+            updateduser.hashPassword =  hashPassword;
         }
 
-        const updateduser = { hashPassword, ...req.body }
         const response = await userModel.updateOne({ _id: userId }, { $set: updateduser });
 
         // checking if document is updated in DB
@@ -83,6 +114,7 @@ const updateUser = async (req, res, next) => {
     }
     catch (err) {
         next(err);
+        console.log(err);
     }
 };
 
@@ -124,10 +156,8 @@ const login = async (req, res, next) => {
         // generating json web token
         const token = await jwt.sign({ id: user._id, role: user.role }, jwt_secrete_key, { expiresIn: "1h" });
 
-        return res
-            .cookie("AuthToken", token, { expire: Date.now() + 3600000 }) //3600000ms is 1hour
-            .status(200)
-            .send(user);
+        res.cookie("AuthToken", token, { expire: Date.now() + 3600000 }); //3600000ms is 1hour
+        return res.status(200).send(user);
     }
     catch (err) {
         next(err);
@@ -158,5 +188,6 @@ export {
     updateUser,
     deleteUser,
     login,
-    logout
+    logout,
+    getAsingleUser
 };

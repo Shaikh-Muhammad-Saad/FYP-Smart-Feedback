@@ -22,8 +22,10 @@ const postFeedback = async (req, res, next) => {
 
         const feedback = new feedbacksModel(req.body);
         feedback.userId = req.userId;
-        // saving user feedback
+        feedback.time = new Date().toLocaleTimeString();
+         // saving user feedback
         await feedback.save();
+        
 
         // updating user
         user.pointsGenerated = user.pointsGenerated + 1;
@@ -31,7 +33,7 @@ const postFeedback = async (req, res, next) => {
         user.nextFeedbackTime = new Date().toLocaleTimeString();
         await user.save();
 
-        return res.status(201).json({ successMsg: "Feedback generated!" }); //201 for created
+        return res.status(201).json({ successMsg: "Feedback generated!", }); //201 for created
 
     } catch (err) {
         next(err);
@@ -46,6 +48,24 @@ const postFeedback = async (req, res, next) => {
 const readAllfeedbacks = async (req, res, next) => {
     try {
         const feedbacks = await feedbacksModel.find().populate("userId");
+
+        if (!feedbacks) {
+            return res.status(500).json({ errorMsg: "Server Error" });
+        }
+        return res.status(200).send(feedbacks);
+    } catch (err) {
+        next(err);
+        console.log(err);
+    }
+};
+
+
+// route:  GET api/feedbacks/:id
+// desc:   reading authenticated user feedbacks
+// access: NOT-PROTECTED
+const readUserFeedbacks = async (req, res, next) => {
+    try {
+        const feedbacks = await feedbacksModel.find({userId: req.params.id })
 
         if (!feedbacks) {
             return res.status(500).json({ errorMsg: "Server Error" });
@@ -104,5 +124,6 @@ export {
     readAllfeedbacks,
     postFeedback,
     deleteSingleFeedback,
-    updateSingleFeedback
+    updateSingleFeedback,
+    readUserFeedbacks
 }

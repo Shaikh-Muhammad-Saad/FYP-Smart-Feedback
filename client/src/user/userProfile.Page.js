@@ -1,15 +1,43 @@
-import react from "react";
+import react, { useEffect, useState } from "react";
 import { Grid, Typography, Button, Divider } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import Header from "../components/header.Component.js"
 import EditProfileModal from "../components/modal/editProfileModal.Component";
+import axios from "axios";
+import { useSelector } from "react-redux";
+
+
 
 const UserProfilePage = (props) => {
+    const [displayUser, setDisplayUser] = useState();
+    const [reLoad, setReLoad] = useState(0);
+    const history = useHistory();
     const theme = useTheme();
     const classes = styles(theme);
     const isXS = useMediaQuery(theme.breakpoints.only("xs"));
+    const user = JSON.parse(localStorage.getItem("user")) ;
+
+    useEffect(async () => {
+        if (!user){
+            history.push("/")
+        }
+        
+        if (user.role == "admin") {
+            history.push("/admin-profile")
+        }
+    }, [])
+
+    useEffect(async () => {
+        try {
+            const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
+            setDisplayUser(res.data);
+        } catch (err) {
+
+        }
+    }, [])
+
     return (<>
         <Header />
         <br />
@@ -43,17 +71,17 @@ const UserProfilePage = (props) => {
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid}>
                     <Typography variant="body1" >First Name:</Typography>
-                    <Typography variant="body1" sx={classes.userDetailsGeneral} >USERNAME</Typography>
+                    <Typography variant="body1" sx={classes.userDetailsGeneral} >{displayUser?.userName}</Typography>
                 </Grid>
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid} >
-                    <Typography variant="body1" >Last Name:</Typography>
-                    <Typography variant="body1" sx={classes.userDetailsGeneral}>USERNAME</Typography>
+                    <Typography variant="body1" >Phone:</Typography>
+                    <Typography variant="body1" sx={classes.userDetailsGeneral}>{displayUser?.phone1}</Typography>
                 </Grid>
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid}>
                     <Typography variant="body1" >Email:</Typography>
-                    <Typography variant="body1" sx={classes.userDetailsGeneral}>USER EMAIL</Typography>
+                    <Typography variant="body1" sx={classes.userDetailsGeneral}>{displayUser?.email}</Typography>
                 </Grid>
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid}>
@@ -62,7 +90,7 @@ const UserProfilePage = (props) => {
                             Change
                         </Typography>
                     </Button> */}
-                    <EditProfileModal />
+                    <EditProfileModal userData={displayUser} />
                 </Grid>
             </Grid>
         </Grid>
@@ -128,7 +156,7 @@ const UserProfilePage = (props) => {
                     sx={classes.timeRemainingGrid}
                 >
                     <Typography variant="h4" fontWeight="bold" align="center">
-                        13 : 23 : 54
+                        {displayUser?.nextFeedbackDate?.split("T")[0]} | {displayUser?.nextFeedbackTime}
                     </Typography>
                 </Grid>
 
@@ -153,7 +181,7 @@ const UserProfilePage = (props) => {
                     sx={classes.timeRemainingGrid}
                 >
                     <Typography variant="h4" fontWeight="bold" align="center">
-                        12 Points
+                        {displayUser?.pointsGenerated}
                     </Typography>
                 </Grid>
 

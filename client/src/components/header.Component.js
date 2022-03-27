@@ -1,14 +1,33 @@
-import react, { useState } from "react";
+import react, { useState,useEffect } from "react";
 import { AppBar, Toolbar, Grid, Typography, Button, Hidden, IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink ,useHistory} from "react-router-dom";
+import { useSelector } from "react-redux"
+
 
 const Header = (props) => {
     const [dropDownMenu, setDropDownMenu] = useState(false);
+    const history =  useHistory();
+    const user = JSON.parse(localStorage.getItem("user")) ;
     const theme = useTheme();
     const classes = styles(theme); 
-    const role = "user";
+    // const role = "user";
+
+    // useEffect(async () => {
+    //     if (!user){
+    //         history.push("/")
+    //     }
+    // }, [])
+
+    if (!user) return null
+
+    const role = user? user.role: null;
+
+    const logout = ()=>{
+        localStorage.removeItem("user");
+        history.push("/")
+    }
 
     return (<>
         <AppBar position="sticky">
@@ -115,7 +134,7 @@ const Header = (props) => {
                             alignItems="center"
                             sm={3} md={3} lg={3} xl={3}
                         >
-                            <Button sx={classes.logoutBtn} variant="contained">
+                            <Button onClick={()=> logout()} sx={classes.logoutBtn} variant="contained">
                                 <Typography variant="caption">
                                     Logout
                                 </Typography>

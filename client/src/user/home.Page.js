@@ -1,25 +1,47 @@
-import { Grid, Typography, TextField, Button, Box } from "@mui/material";
+import { Grid, Typography, TextField, Button, Box, Alert } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Divider from '@mui/material/Divider';
-import React from "react";
+import React, { useState } from "react";
 import { usehistory, withRouter } from "react-router-dom"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/userSlice";
+import axios from "axios";
 
 const HomePage = (props) => {
+    const [email, setEmail] = useState()
+    const [password, setPssword] = useState();
+    const dispatch = useDispatch();
     const theme = useTheme();
     const isWidth350 = useMediaQuery("(max-width:350px)");
     const windowheight = window.innerHeight;
     const classes = styles(theme, windowheight);
-    const history =  useHistory();
+    const history = useHistory();
+
+    // setting axios credentials 
+    axios.defaults.withCredentials =  true;
+
+    // handlers
+    const login = async (email, password) => {
+        try {
+            const body = { email, password }
+            const res = await axios.post("http://localhost:5555/api/user/login", body);
+            localStorage.setItem("user", JSON.stringify(res.data));
+            // dispatch(addUser(res.data));
+            props.history.push("/user-profile");
+        }
+        catch (err) {
+            console.log(err.response);
+            alert(err.response.data.errorMsg);
+        }
+    };
 
     return (<>
         <Grid container direction="row" sx={{ ...classes.mainContainer }}>
-
 
             {/* 1ST GRID */}
             <Grid
@@ -55,7 +77,7 @@ const HomePage = (props) => {
                 <Button
                     endIcon={<ArrowForwardIosIcon />}
                     style={{ ...classes.headingsGeneral, padding: "20px", color: "#4d79ff", fontWeight: "bold", background: "white", borderRadius: "30px", marginTop: "10px" }}
-                    onClick={()=> props.history.push("/public-reviews")}
+                    onClick={() => props.history.push("/public-reviews")}
                 >
                     <Typography variant="h6">
                         See Feedbacks
@@ -104,7 +126,7 @@ const HomePage = (props) => {
                         </Grid>
 
                         <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                            <TextField type="email" variant="standard" fullWidth label="E-mail" />
+                            <TextField onChange={(e)=> setEmail(e.target.value)} type="email" variant="standard" fullWidth label="E-mail" />
                         </Grid>
 
                     </Grid>
@@ -127,13 +149,15 @@ const HomePage = (props) => {
                                 type="password"
                                 variant="standard"
                                 fullWidth
-                                label="Password" />
+                                label="Password" 
+                                onChange={(e)=> setPssword(e.target.value)}
+                                />
                         </Grid>
 
                     </Grid>
 
                     <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
-                        <Button onClick={()=> history.push("/user-profile")} variant="contained" fullWidth>Sign In</Button>
+                        <Button onClick={() => login(email, password)} variant="contained" fullWidth>Sign In</Button>
                     </Grid>
 
                     <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>

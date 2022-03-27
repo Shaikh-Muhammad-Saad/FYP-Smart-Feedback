@@ -1,13 +1,62 @@
-import react from "react";
+import react, { useEffect, useState } from "react";
 import { Grid, Typography, Button, TextField } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import Header from "../components/header.Component.js"
 import StarRatingComponent from "../components/starRating.Component.js";
+import axios from "axios";
 
 const FeedBackPage = (props) => {
+    const [first, setFirst] = useState(0);
+    const [second, setSecond] = useState(0);
+    const [third, setThird] = useState(0);
+    const [fourth, setfourth] = useState(0);
+    const [fifth, setFifth] = useState(0);
+    const [sixth, setSixth] = useState(0);
+    const [seventh, setSeventh] = useState(0);
+    const [eigth, setEigth] = useState(0);
+    const [nineth, setNineth] = useState(0);
+    const [tenth, setTenth] = useState(0);
+    const [avgRating, setAvgRating] = useState();
+    const [userFeedback, setUserFeedback] = useState();
+    const [questions, setQuestions] = useState([]);
     const theme = useTheme();
     const classes = styles(theme);
+
+    useEffect(async () => {
+        try {
+            const res = await axios.get("http://localhost:5555/api/questions/");
+            setQuestions(res.data)
+        } catch (err) {
+            console.log(err.response);
+        }
+    }, [])
+
+
+    console.log(userFeedback)
+    const onsubmit = async () => {
+        const first1 = first ? first : 0
+        const second1 = second ? second : 0
+        const third1 = third ? third : 0
+        const fourth1 = fourth ? fourth : 0
+        const fifth1 = fifth ? fifth : 0
+        const sixth1 = sixth ? sixth : 0
+        const seventh1 = seventh ? seventh : 0
+        const eigth1 = eigth ? eigth : 0
+        const nineth1 = nineth ? nineth : 0
+        const tenth1 = tenth ? tenth : 0
+        const avg = (first1 + second1 + third1 + fourth1 + fifth1 + sixth1 + seventh1 + eigth1 + nineth1 + tenth1) / questions.length;
+        const averageRating = Math.ceil(avg);
+        const body = { userFeedback, averageRating }
+        try {
+            const res = await axios.post(`http://localhost:5555/api/feedbacks/`, body)
+            alert(res.data.successMsg)
+        } catch (err) {
+            console.log(err.response);
+            alert(err.response.data.errorMsg);
+        }
+    };
+
     return (<>
         <Header />
         <br />
@@ -17,13 +66,57 @@ const FeedBackPage = (props) => {
                 item
                 xs={11} sm={11} md={5.5} lg={5} xl={5}
             >
-                <StarRatingComponent question="Did we meet your expactations?" />
-                <StarRatingComponent question="How would you rate your interaction with Our employees?" />
-                <StarRatingComponent question="How do you rate the variety of options on the menu?" />
-                <StarRatingComponent question="How would you rate the quality of the food at our restaurant?" />
-                <StarRatingComponent question="How Would you rate the friendlyness of our staff?" />
-                <StarRatingComponent question="How were the drinks and beverages?" />
-                <StarRatingComponent question="How much did you enjoy your visit?" />
+                {
+                    questions[0] ?
+                        <StarRatingComponent setRating={setFirst} question={questions[0]?.question} />
+                        : null
+                }
+                {
+                    questions[1] ?
+                        <StarRatingComponent setRating={setSecond} question={questions[1]?.question} />
+                        : null
+                }
+                {
+                    questions[2] ?
+                        <StarRatingComponent setRating={setThird} question={questions[2]?.question} />
+                        : null
+                }
+                {
+                    questions[3] ?
+                        <StarRatingComponent setRating={setfourth} question={questions[3]?.question} />
+                        : null
+                }
+                {
+                    questions[4] ?
+                        <StarRatingComponent setRating={setFifth} question={questions[4]?.question} />
+                        : null
+                }
+                {
+                    questions[5] ?
+                        <StarRatingComponent setRating={setFifth} question={questions[5]?.question} />
+                        : null
+                }
+                {
+                    questions[6] ?
+                        <StarRatingComponent setRating={setFifth} question={questions[6]?.question} />
+                        : null
+                }
+                {
+                    questions[7] ?
+                        <StarRatingComponent setRating={setFifth} question={questions[7]?.question} />
+                        : null
+                }
+                {
+                    questions[8] ?
+                        <StarRatingComponent setRating={setFifth} question={questions[8]?.question} />
+                        : null
+                }
+                {
+                    questions[9] ?
+                        <StarRatingComponent setRating={setFifth} question={questions[9]?.question} />
+                        : null
+                }
+
             </Grid>
 
             <Grid
@@ -41,8 +134,9 @@ const FeedBackPage = (props) => {
                     rows={10}
                     placeholder="write here..."
                     sx={{ ...classes.xSpacing15, background: "#f2f2f2" }}
+                    onChange={(e) => setUserFeedback(e.target.value)}
                 />
-                <Button variant="contained">Submit</Button>
+                <Button variant="contained" onClick={() => onsubmit()}>Submit</Button>
 
             </Grid>
 

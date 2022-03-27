@@ -4,7 +4,8 @@ import {
     readAllfeedbacks,
     postFeedback,
     deleteSingleFeedback,
-    updateSingleFeedback
+    updateSingleFeedback,
+    readUserFeedbacks
 } from "../../controllers/feedbacks/feedbacks.Controller.js"
 import authentication from "../../middlewares/authentication.js"
 
@@ -21,6 +22,12 @@ router.post("/", authentication, postFeedback);
 // desc:   reading all users feedbacks.
 // access: NOT-PROTECTED
 router.get("/", readAllfeedbacks);
+
+
+// route:  GET api/feedbacks/:id
+// desc:   reading authenticated user feedbacks.
+// access: NOT-PROTECTED
+router.get("/:id", readUserFeedbacks);
 
 
 // route:  DELETE api/feedbacks/:id

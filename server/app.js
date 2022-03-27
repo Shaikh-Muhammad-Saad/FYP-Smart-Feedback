@@ -1,5 +1,6 @@
 import express from "express"
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import connectDatabase from "./config/databaseConnection.js"
 import userRoutes from "./routes/user/user.Routes.js"
 import feedbacksRoutes from "./routes/feedbacks/feedbacks.Routes.js"
@@ -13,6 +14,12 @@ const app = express();
 const port = process.env.PORT | 5555;
 
 app.use(cookieParser());
+app.use(
+    cors({
+        origin: (origin, callback) => callback(null, true),
+        credentials: true,
+    })
+);
 app.use(express.json());
 
 // api routes

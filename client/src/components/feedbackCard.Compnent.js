@@ -2,20 +2,32 @@ import { Grid, Typography, Button } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import axios from "axios";
 
 
 
-
-const FeedbacksCard = (props) => {
+const FeedbacksCard = ({ cardData }) => {
     const theme = useTheme();
     const isWidth400px = useMediaQuery("(max-width:400px)");
     const classes = styles(theme);
 
-    const date = "09-12-2021";
-    const rating = 4;
-    const feedback = "this is some dummy text to show the user feed back and for the testing of user Interface this is some dummy text to show the user feed back and for the testing of user Interface this is some dummy text to show the user feed back and for the testing of user Interface";
+    const date = cardData?.date + "  |  " + cardData?.time;
+    const rating = cardData?.averageRating;
+    const feedback = cardData?.userFeedback;
     const role = "user"
-    const userName = "Shaikh Muhammad Saad"
+
+
+    const onDelete = async (feedbackId) => {
+        try {
+            const res = await axios.delete(`http://localhost:5555/api/feedbacks/${feedbackId}`)
+            alert(res.data.successMsg);
+
+        } catch (err) {
+            console.log(err.response);
+            alert(err.response.data.errorMsg)
+        }
+    }
+
     return (<>
         <Grid
             container
@@ -49,11 +61,11 @@ const FeedbacksCard = (props) => {
             </Grid>
 
             {/* user-name container */}
-            <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
+            {/* <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
                 <Typography color="white" variant="subtitle1" sx={{ fontWeight: "bold", mb:1 }} >
                     @{userName}
                 </Typography>
-            </Grid>
+            </Grid> */}
 
             {/* Feedback container */}
             <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
@@ -70,15 +82,20 @@ const FeedbacksCard = (props) => {
                 justifyContent={isWidth400px ? "center" : null}
             >
 
-                {role !== "admin" ? (
+                {role == "user" ? (
+
+                    <Button onClick={()=> onDelete(cardData?._id) } sx={{ ...classes.deleteBtn }}>
+                        Delete
+                    </Button>
+                ) : (<>
                     <Button sx={{ ...classes.editBtn }}>
                         Edit
                     </Button>
-                ) : null}
+                    <Button onClick={()=> onDelete(cardData?._id) } sx={{ ...classes.deleteBtn }}>
+                        Delete
+                    </Button>
+                </>)}
 
-                <Button sx={{ ...classes.deleteBtn }}>
-                    Delete
-                </Button>
             </Grid>
 
         </Grid>

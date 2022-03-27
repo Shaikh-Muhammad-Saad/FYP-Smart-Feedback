@@ -5,7 +5,8 @@ import {
     updateUser,
     deleteUser,
     login,
-    logout
+    logout,
+    getAsingleUser
 } from "../../controllers/user/user.Controller.js"
 import authentication from "../../middlewares/authentication.js"
 
@@ -21,6 +22,12 @@ router.post("/", createUser);
 // desc:   get all users
 // access: PROTECTED
 router.get("/", authentication, readAllUsers);
+
+
+// route:  GET /api/user/:id
+// desc:   get single user by id
+// access: PROTECTED
+router.get("/:id", getAsingleUser);
 
 
 // route:  PATCH /api/user/

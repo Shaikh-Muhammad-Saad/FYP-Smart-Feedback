@@ -26,7 +26,6 @@ const feedbacksSchema = new mongoose.Schema({
     },
     time:{
         type: String,
-        default: new Date().toLocaleTimeString()
     }
 
 });
