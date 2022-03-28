@@ -43,9 +43,9 @@ const readQuestions = async (req, res, next) => {
 // access: PROTECTED
 const deleteQuestion = async (req, res, next) => {
     try {
-        const response = await questionsModel.deleteOne({ _id: req.params.id });
+        const response = await questionsModel.findByIdAndDelete(req.params.id);
 
-        if (response.deletedCount !== 1) {
+        if (!response) {
             return res.status(500).send({ errorMsg: "server error" });
         }
 
@@ -63,10 +63,10 @@ const deleteQuestion = async (req, res, next) => {
 // access: PROTECTEDD
 const updateQuestion = async (req, res, next) => {
     try {
-        const response = await questionsModel.updateOne({ _id: req.params.id }, { $set: { question: req.body.question } });
+        const response = await questionsModel.findByIdAndUpdate(req.params.id, { question: req.body.question });
 
         // checking if document is updated in DB
-        if (response.modifiedCount !== 1) {
+        if (!response) {
             return res.status(500).json({ errorMsg: "server error" })
         }
 

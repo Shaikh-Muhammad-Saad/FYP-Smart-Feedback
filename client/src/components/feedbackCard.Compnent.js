@@ -1,16 +1,23 @@
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid, Typography, Button, TextField } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useHistory } from "react-router-dom";
 import axios from "axios";
+import cogoToast from 'cogo-toast';
+import { useState } from "react";
 
 
 
 const FeedbacksCard = ({ cardData }) => {
+    const [isEdit, setIsEdit] = useState(false)
+    const [userFeedback, setUserFeedback] = useState()
+
+    const history = useHistory();
     const theme = useTheme();
     const isWidth400px = useMediaQuery("(max-width:400px)");
     const classes = styles(theme);
-    const user = JSON.parse(localStorage.getItem("user")) ;
+    const user = JSON.parse(localStorage.getItem("user"));
 
 
     const date = cardData?.date + "  |  " + cardData?.time;
@@ -20,16 +27,43 @@ const FeedbacksCard = ({ cardData }) => {
     const role = user.role;
 
 
-    const onDelete = async (feedbackId) => {
+    const onDelete = async () => {
         try {
-            const res = await axios.delete(`http://localhost:5555/api/feedbacks/${feedbackId}`)
-            alert(res.data.successMsg);
+            const res = await axios.delete(`http://localhost:5555/api/feedbacks/${cardData?._id}`)
+            cogoToast.success(<h4>{res.data.successMsg}</h4>);
 
         } catch (err) {
             console.log(err.response);
-            alert(err.response.data.errorMsg)
+
+            if (err.response.status == 401) {
+                localStorage.removeItem("user");
+                history.push("/")
+                cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+            }
+            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
         }
     }
+
+
+    const onEdit = async () => {
+        try {
+            const body={userFeedback}
+            const res = await axios.patch(`http://localhost:5555/api/feedbacks/${cardData?._id}`, body)
+            
+            cogoToast.success(<h4>{res.data.successMsg}</h4>);
+
+        } catch (err) {
+            console.log(err.response);
+
+            if (err.response.status == 401) {
+                localStorage.removeItem("user");
+                history.push("/")
+                cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+            }
+            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+        }
+    }
+
 
     return (<>
         <Grid
@@ -65,22 +99,42 @@ const FeedbacksCard = ({ cardData }) => {
 
             {/* user-name container */}
             {
-                role == "admin"?(<>
-                
-            <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
-                <Typography color="white" variant="subtitle1" sx={{ fontWeight: "bold", mb:1 }} >
-                    @{userName}
-                </Typography>
-            </Grid>
-                </>): null
+                role == "admin" ? (<>
+
+                    <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
+                        <Typography color="white" variant="subtitle1" sx={{ fontWeight: "bold", mb: 1 }} >
+                            @ {userName}
+                        </Typography>
+                    </Grid>
+                </>) : null
             }
 
             {/* Feedback container */}
-            <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
-                <Typography color="white" variant="subtitle1" >
-                    {feedback}
-                </Typography>
-            </Grid>
+            {
+                isEdit ? (<>
+                    <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
+
+                        <TextField
+                            type={"text"}
+                            multiline
+                            defaultValue={feedback}
+                            fullWidth
+                            onChange={(e)=> setUserFeedback(e.target.value)}
+                            sx={{ border: "2px solid white", borderRadius: "5px", background: "white" }}
+                        />
+                    </Grid>
+
+                </>) : (<>
+
+                    <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
+                        <Typography color="white" variant="subtitle1" >
+                            {feedback}
+                        </Typography>
+                    </Grid>
+
+                </>)
+            }
+
 
             <Grid
                 item
@@ -90,18 +144,40 @@ const FeedbacksCard = ({ cardData }) => {
                 justifyContent={isWidth400px ? "center" : null}
             >
 
+                {/* checking user role  */}
                 {role == "user" ? (
-
-                    <Button onClick={()=> onDelete(cardData?._id) } sx={{ ...classes.deleteBtn }}>
-                        Delete
-                    </Button>
+                    null
+                    // <Button onClick={()=> onDelete(cardData?._id) } sx={{ ...classes.deleteBtn }}>
+                    //     Delete
+                    // </Button>
                 ) : (<>
-                    <Button sx={{ ...classes.editBtn }}>
-                        Edit
-                    </Button>
-                    <Button onClick={()=> onDelete(cardData?._id) } sx={{ ...classes.deleteBtn }}>
+
+
+                    {/* edit options */}
+                    {
+                        isEdit ? (<>
+                            <Button onClick={onEdit} sx={{ ...classes.editBtn }}>
+                                Save
+                            </Button>
+                            <Button onClick={() => setIsEdit(false)} sx={{ ...classes.editBtn }}>
+                                Cancel
+                            </Button>
+
+                        </>) :
+                            (<>
+                                <Button onClick={() => setIsEdit(true)} sx={{ ...classes.editBtn }}>
+                                    Edit
+                                </Button>
+                            </>)
+
+                    }
+
+                    <Button onClick={() => onDelete()} sx={{ ...classes.deleteBtn }}>
                         Delete
                     </Button>
+
+
+
                 </>)}
 
             </Grid>
@@ -114,7 +190,8 @@ const styles = (theme) => ({
     conatiner: {
         background: "#4d79ff",
         borderRadius: "10px",
-        marginTop: "25px"
+        marginTop: "25px",
+        pb: 1.5
     },
     date_RatingContainer: {
         marginTop: "8px",

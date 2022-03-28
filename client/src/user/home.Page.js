@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch } from "react-redux";
 import { addUser } from "../redux/userSlice";
 import axios from "axios";
+import cogoToast from 'cogo-toast';
 
 const HomePage = (props) => {
     const [email, setEmail] = useState()
@@ -33,10 +34,12 @@ const HomePage = (props) => {
             localStorage.setItem("user", JSON.stringify(res.data));
             // dispatch(addUser(res.data));
             props.history.push("/user-profile");
+            cogoToast.success(<h4>Logged in Successfuh3y</h4>);
+
         }
         catch (err) {
-            console.log(err.response);
-            alert(err.response.data.errorMsg);
+            console.log(err?.response);
+            cogoToast.error(<h4>{err?.response?.data?.errorMsg}</h4>);
         }
     };
 

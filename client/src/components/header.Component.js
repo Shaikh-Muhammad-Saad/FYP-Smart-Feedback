@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import { Link, NavLink ,useHistory} from "react-router-dom";
 import { useSelector } from "react-redux"
+import cogoToast from 'cogo-toast';
 
 
 const Header = (props) => {
@@ -27,6 +28,8 @@ const Header = (props) => {
     const logout = ()=>{
         localStorage.removeItem("user");
         history.push("/")
+        cogoToast.success(<h3>logged out</h3>);
+
     }
 
     return (<>

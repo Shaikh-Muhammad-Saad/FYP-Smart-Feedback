@@ -10,17 +10,17 @@ const PreviousFeedbackPage = (props) => {
     const [feedbacks, setFeedbacks] = useState();
     const theme = useTheme();
     const classes = styles(theme);
-    const user = JSON.parse(localStorage.getItem("user")) ;
+    const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(async () => {
         try {
-            const res =  await axios.get(`http://localhost:5555/api/feedbacks/${user._id}`)
-            setFeedbacks(res.data);
+            const res = await axios.get(`http://localhost:5555/api/feedbacks/${user._id}`)
+            setFeedbacks(res.data.reverse());
+
         } catch (err) {
             console.log(err.response);
         }
     }, [])
-
     return (<>
         <Header />
         <Grid
@@ -43,10 +43,10 @@ const PreviousFeedbackPage = (props) => {
                 xs={11} sm={9} md={9} lg={9} xl={9}
             >
                 {
-                    feedbacks?.map((cardData)=>{
-                        return(
+                    feedbacks?.map((cardData) => {
+                        return (
 
-                            <FeedbacksCard cardData={cardData}/>
+                            <FeedbacksCard cardData={cardData} />
                         )
                     })
                 }

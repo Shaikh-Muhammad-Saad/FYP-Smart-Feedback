@@ -78,15 +78,16 @@ const updateUser = async (req, res, next) => {
         // const userId = "6234de111d234428f638f588";
 
         const updateduser = {};
-
-
+        
+        if (req.body.email !== undefined || req.body.email !== null ) {
+            updateduser.email = req.body.email;
+        }
+        
         // check if email already exist
         if (await userModel.findOne({ email: req.body.email })) {
             res.status(400).json({ errorMsg: "E-mail already exist" });// 400 for bad request
         }
-        if (req.body.email !== undefined) {
-            updateduser.email = req.body.email;
-        }
+
         if (req.body.userName !== undefined) {
             updateduser.userName = req.body.userName;
 

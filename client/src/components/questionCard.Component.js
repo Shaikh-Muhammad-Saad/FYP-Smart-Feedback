@@ -3,10 +3,14 @@ import { Grid, Typography, TextField, Button } from "@mui/material"
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import axios from "axios";
+import cogoToast from 'cogo-toast';
+import { useHistory } from "react-router-dom";
+
 
 const QuestionCardComponent = ({ cardvalue }) => {
     const [isEdit, setIsEdit] = useState(false)
     const [question, setQuestion] = useState()
+    const history = useHistory();
 
     const theme = useTheme();
     const classes = styles(theme);
@@ -15,11 +19,17 @@ const QuestionCardComponent = ({ cardvalue }) => {
     const onDelete = async (id) => {
         try {
             const res = await axios.delete(`http://localhost:5555/api/questions/${id}`)
-            alert(res.data.successMsg);
+            cogoToast.success(<h4>{res.data.successMsg}</h4>);
 
         } catch (err) {
             console.log(err.response);
-            alert(err.response.data.errorMsg)
+
+            if (err.response.status == 401) {
+                localStorage.removeItem("user");
+                history.push("/")
+                cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+            }
+            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
         }
     }
 
@@ -28,16 +38,20 @@ const QuestionCardComponent = ({ cardvalue }) => {
         try {
             const body = {question};
             const res = await axios.patch(`http://localhost:5555/api/questions/${id}`, body)
-            alert(res.data.successMsg);
+            cogoToast.success(<h4>{res.data.successMsg}</h4>);
 
         } catch (err) {
             console.log(err.response);
-            alert(err.response.data.errorMsg)
+
+            if (err.response.status == 401) {
+                localStorage.removeItem("user");
+                history.push("/")
+                cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+            }
+            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
         }
     }
 
-
-    console.log(1)
     return (<>
         <Grid container sx={classes.container}>
 

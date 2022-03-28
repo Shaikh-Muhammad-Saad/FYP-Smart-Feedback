@@ -22,8 +22,8 @@ const AdminFeedbacksPage = () => {
     const [generalFeedbacks, setGeneralFeedbacks] = useState([]);
     const [rating, setRating] = React.useState();
     const [date, setDate] = React.useState();
-    const [feedbacksByDate, setFeedbacksByDate] = React.useState();
-    const [feedbacksByRating, setFeedbacksByRating] = React.useState();
+    const [feedbacksByDate, setFeedbacksByDate] = React.useState([]);
+    const [feedbacksByRating, setFeedbacksByRating] = React.useState([]);
 
     const theme = useTheme();
     const sortBylatestFeedbacks = useRef();
@@ -61,18 +61,32 @@ const AdminFeedbacksPage = () => {
         sortByDate.current.style.display = "none"
         sortBylatestFeedbacks.current.style.display = "none"
     };
-    const handelLatestFeedbackDisplay = () => {
-        searchingContainerRef.current.style.display = "block"
-        sortBylatestFeedbacks.current.style.display = "block"
+    const handelLatestFeedbackDisplay = async () => {
+        searchingContainerRef.current.style.display = "none"
+        sortBylatestFeedbacks.current.style.display = "none"
         sortByRating.current.style.display = "none"
         sortByDate.current.style.display = "none"
+        try {
+            const res = await axios.get("http://localhost:5555/api/feedbacks/");
+            setGeneralFeedbacks(res.data.reverse());
+            setFeedbacksByRating([]);
+            setFeedbacksByDate([]);
+        } catch (err) {
+            console.log(err.response)
+        }
+
     };
 
 
 
     useEffect(async () => {
-        const res = await axios.get("http://localhost:5555/api/feedbacks/");
-        setGeneralFeedbacks(res.data);
+        try {
+            const res = await axios.get("http://localhost:5555/api/feedbacks/");
+            setGeneralFeedbacks(res.data.reverse());
+        } catch (err) {
+            console.log(err.response)
+        }
+
     }, []);
 
 
@@ -80,7 +94,7 @@ const AdminFeedbacksPage = () => {
         try {
             const body = { date }
             const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByDate", body)
-            setFeedbacksByDate(res.data);
+            setFeedbacksByDate(res.data.reverse());
             setGeneralFeedbacks([]);
             setFeedbacksByRating([]);
 
@@ -89,17 +103,17 @@ const AdminFeedbacksPage = () => {
         }
     }
 
-    const getFeedbacksByRating = async() => {
+    const getFeedbacksByRating = async () => {
         try {
             const body = { rating }
             const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByRating", body)
-            setFeedbacksByRating(res.data);
+            setFeedbacksByRating(res.data.reverse());
             setFeedbacksByDate([]);
             setGeneralFeedbacks([]);
 
         } catch (err) {
             console.log(err.response);
-        } 
+        }
     }
 
     return (<>
@@ -155,6 +169,7 @@ const AdminFeedbacksPage = () => {
                 >
                     <MenuItem onClick={handelDateDisplay}>Sort By Date</MenuItem>
                     <MenuItem onClick={handelRatingDisplay}>Sort By Rating</MenuItem>
+                    <MenuItem onClick={handelLatestFeedbackDisplay}>Latest</MenuItem>
                 </Menu>
             </Grid>
         </Grid>
@@ -201,7 +216,6 @@ const AdminFeedbacksPage = () => {
                 </Grid>
 
 
-
                 {/* Rating Box */}
                 <Box ref={sortByRating} sx={{ ...classes.ratingBox }}>
                     <Grid container flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
@@ -227,7 +241,7 @@ const AdminFeedbacksPage = () => {
 
                         {/* Search Button */}
                         <Grid item xs={3} sm={3} md={3} lg={3} xl={3} >
-                            <Button onClick={()=> getFeedbacksByRating() } variant="contained" sx={classes.searchBtn}>
+                            <Button onClick={() => getFeedbacksByRating()} variant="contained" sx={classes.searchBtn}>
                                 search
                             </Button>
                         </Grid>
@@ -262,8 +276,17 @@ const AdminFeedbacksPage = () => {
 
             </Grid>
 
+        </Grid>
 
 
+        <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
+            {
+                ((()=>{
+                    if(generalFeedbacks.length !== 0)return <Typography variant="h4" sx={classes.sortingHeading}>latest Feedbacks</Typography>
+                    if(feedbacksByDate.length !== 0)return <Typography variant="h4" sx={classes.sortingHeading}>Sorted By Date</Typography>
+                    if(feedbacksByRating.length !== 0)return <Typography variant="h4" sx={classes.sortingHeading}>Sorted By Rating</Typography>
+                })())
+            }
         </Grid>
 
         {/* USER FEEDBACKS */}
@@ -406,6 +429,10 @@ const styles = (theme) => ({
     },
     ratingSelect: {
         "& .MuiSelect-select:hover": { border: "none" }
+    },
+    sortingHeading:{
+        ml: "3%",
+        mt:4
     }
 
 });

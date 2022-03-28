@@ -5,6 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import Header from "../components/header.Component.js"
 import StarRatingComponent from "../components/starRating.Component.js";
 import axios from "axios";
+import cogoToast from 'cogo-toast';
+
 
 const FeedBackPage = (props) => {
     const [first, setFirst] = useState(0);
@@ -33,7 +35,7 @@ const FeedBackPage = (props) => {
     }, [])
 
 
-    console.log(userFeedback)
+    
     const onsubmit = async () => {
         const first1 = first ? first : 0
         const second1 = second ? second : 0
@@ -50,10 +52,11 @@ const FeedBackPage = (props) => {
         const body = { userFeedback, averageRating }
         try {
             const res = await axios.post(`http://localhost:5555/api/feedbacks/`, body)
-            alert(res.data.successMsg)
+            cogoToast.success(<h4>{res.data.successMsg}</h4>);
+            
         } catch (err) {
             console.log(err.response);
-            alert(err.response.data.errorMsg);
+            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
         }
     };
 

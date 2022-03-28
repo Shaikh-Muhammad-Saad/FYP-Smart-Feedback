@@ -34,9 +34,18 @@ const UserProfilePage = (props) => {
             const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
             setDisplayUser(res.data);
         } catch (err) {
-
+            console.log(err.response);
         }
     }, [])
+
+    const refetchUser= async()=>{
+        try {
+            const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
+            setDisplayUser(res.data);
+        } catch (err) {
+            console.log(err.response);
+        }
+    };
 
     return (<>
         <Header />
@@ -90,7 +99,7 @@ const UserProfilePage = (props) => {
                             Change
                         </Typography>
                     </Button> */}
-                    <EditProfileModal userData={displayUser} />
+                    <EditProfileModal refetchUser={refetchUser} userData={displayUser} />
                 </Grid>
             </Grid>
         </Grid>
@@ -100,41 +109,6 @@ const UserProfilePage = (props) => {
         <Divider sx={classes.divider} variant="middle" />
         <br />
         <br />
-
-        {/* TIMER CONTAINER GRID
-        <Grid container justifyContent="center" >
-
-            <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                <Typography variant="h5" fontWeight="bold" align="center">
-                    Time Remaining For Next Feedback
-                </Typography>
-            </Grid>
-            
-            <Grid item xs={8} sm={5.5} md={4} lg={4} xl={4} sx={classes.timeRemainingGrid}>
-                <Typography variant="h4" fontWeight="bold" align="center">
-                    13hr 23m 54s
-                </Typography>
-            </Grid>
-        </Grid>
-
-        GENERATED POINTS GRID
-        <Grid container justifyContent="center" >
-
-            <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                <Typography variant="h5" fontWeight="bold" align="center">
-                    Generated Points
-                </Typography>
-            </Grid>
-            
-            <Grid item xs={8} sm={5.5} md={4} lg={4} xl={4} sx={classes.timeRemainingGrid}>
-                <Typography variant="h4" fontWeight="bold" align="center">
-                    12 Points
-                </Typography>
-            </Grid>
-        </Grid> */}
-
-        {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
-
         <Grid container justifyContent="space-evenly">
 
             {/* TIMER CONTAINER GRID */}
@@ -181,7 +155,7 @@ const UserProfilePage = (props) => {
                     sx={classes.timeRemainingGrid}
                 >
                     <Typography variant="h4" fontWeight="bold" align="center">
-                        {displayUser?.pointsGenerated}
+                        {displayUser?.pointsGenerated} Points
                     </Typography>
                 </Grid>
 

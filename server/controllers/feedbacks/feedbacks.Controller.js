@@ -121,11 +121,11 @@ const getFeedbacksByRating = async (req, res, next) => {
 // access: PROTECTED
 const deleteSingleFeedback = async (req, res, next) => {
     try {
-
-        const response = await feedbacksModel.deleteOne({ id: req.params.id });
+        console.log(req.params.id)
+        const response = await feedbacksModel.findByIdAndDelete(req.params.id);
 
         // checking if document is deleted in DB
-        if (response.deletedCount !== 1) {
+        if (!response) {
             return res.status(500).send({ errorMsg: "server error" });
         }
 

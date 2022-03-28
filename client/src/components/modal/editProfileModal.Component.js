@@ -10,10 +10,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link , useHistory} from "react-router-dom";
 import axios from 'axios';
+import cogoToast from 'cogo-toast';
 
 
 
-export default function EditProfileModal({ userData }) {
+export default function EditProfileModal({ userData ,refetchUser}) {
     const [email, setEmail] = React.useState();
     const [password, setPassword] = React.useState();
     const [userName, setUserName] = React.useState();
@@ -34,11 +35,11 @@ export default function EditProfileModal({ userData }) {
         try {
             const body = { userName, email, phone1 , password };
             const res = await axios.patch("http://localhost:5555/api/user/", body);
-            alert(res.data.successMsg);
-
+            refetchUser();
+            cogoToast.success(<h4>{res.data.successMsg}</h4>);
         } catch (err) {
             console.log(err.response);
-            alert(err.response.data.errorMsg)
+            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
         }
     };
 
@@ -146,7 +147,7 @@ export default function EditProfileModal({ userData }) {
                         </Grid>
 
 
-                        {/*CONFIRM PASSWORD TXT FIELD */}
+                        {/*Phone */}
                         <Grid
                             item
                             container
@@ -163,7 +164,10 @@ export default function EditProfileModal({ userData }) {
                                 <TextField
                                     type="text"
                                     variant="standard"
-                                    fullWidth label="Phone" />
+                                    fullWidth 
+                                    label="Phone"
+                                    onChange={(e) => setPhone1(e.target.value)}
+                                    />
                             </Grid>
 
                         </Grid>
