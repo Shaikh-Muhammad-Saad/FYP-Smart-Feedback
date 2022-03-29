@@ -1,14 +1,49 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Grid, Typography, Button, Divider } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from ".././components/header.Component"
 import EditProfileModal from "../components/modal/editProfileModal.Component"
+import { Link, NavLink, useHistory } from "react-router-dom";
+import axios from "axios";
+
 const AdminProfilePage = () => {
 
+    const [displayUser, setDisplayUser] = useState();
+    const history = useHistory();
     const theme = useTheme();
     const classes = styles(theme);
     const isXS = useMediaQuery(theme.breakpoints.only("xs"));
+    const user = JSON.parse(localStorage.getItem("user")) ;
+
+
+    useEffect(async () => {
+        if (!user){
+            history.push("/")
+        }
+        
+        if (user.role !== "admin") {
+            history.push("/")
+        }
+    }, [])
+
+    useEffect(async () => {
+        try {
+            const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
+            setDisplayUser(res.data);
+        } catch (err) {
+            console.log(err.response);
+        }
+    }, [])
+
+    const refetchUser= async()=>{
+        try {
+            const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
+            setDisplayUser(res.data);
+        } catch (err) {
+            console.log(err.response);
+        }
+    };
 
     return (<>
         <Header />
@@ -40,19 +75,19 @@ const AdminProfilePage = () => {
                 sx={classes.userDetailsMainContainer}
             >
 
-                <Grid item container direction="row" sx={classes.useerDetailsGrid}>
+<Grid item container direction="row" sx={classes.useerDetailsGrid}>
                     <Typography variant="body1" >First Name:</Typography>
-                    <Typography variant="body1" sx={classes.userDetailsGeneral} >USERNAME</Typography>
+                    <Typography variant="body1" sx={classes.userDetailsGeneral} >{displayUser?.userName}</Typography>
                 </Grid>
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid} >
-                    <Typography variant="body1" >Last Name:</Typography>
-                    <Typography variant="body1" sx={classes.userDetailsGeneral}>USERNAME</Typography>
+                    <Typography variant="body1" >Phone:</Typography>
+                    <Typography variant="body1" sx={classes.userDetailsGeneral}>{displayUser?.phone1}</Typography>
                 </Grid>
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid}>
                     <Typography variant="body1" >Email:</Typography>
-                    <Typography variant="body1" sx={classes.userDetailsGeneral}>USER EMAIL</Typography>
+                    <Typography variant="body1" sx={classes.userDetailsGeneral}>{displayUser?.email}</Typography>
                 </Grid>
 
                 <Grid item container direction="row" sx={classes.useerDetailsGrid}>
@@ -61,7 +96,7 @@ const AdminProfilePage = () => {
                             Change
                         </Typography>
                     </Button> */}
-                    <EditProfileModal/>
+                    <EditProfileModal refetchUser={refetchUser} userData={displayUser} />
                 </Grid>
 
             </Grid>

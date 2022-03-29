@@ -9,10 +9,10 @@ import { useState } from "react";
 
 
 
-const FeedbacksCard = ({ cardData }) => {
+const FeedbacksCard = ({ cardData, refetchData }) => {
     const [isEdit, setIsEdit] = useState(false)
     const [userFeedback, setUserFeedback] = useState()
-
+    // console.log(typeof reFetch)
     const history = useHistory();
     const theme = useTheme();
     const isWidth400px = useMediaQuery("(max-width:400px)");
@@ -30,37 +30,39 @@ const FeedbacksCard = ({ cardData }) => {
     const onDelete = async () => {
         try {
             const res = await axios.delete(`http://localhost:5555/api/feedbacks/${cardData?._id}`)
-            cogoToast.success(<h4>{res.data.successMsg}</h4>);
+            cogoToast.success(<h4>{res?.data?.successMsg}</h4>);
+            refetchData();
 
         } catch (err) {
-            console.log(err.response);
+            console.log(err?.response);
 
-            if (err.response.status == 401) {
+            if (err?.response?.status == 401) {
                 localStorage.removeItem("user");
                 history.push("/")
-                cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+                cogoToast.error(<h4>{err?.response?.data?.errorMsg}</h4>);
             }
-            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+            cogoToast.error(<h4>{err?.response?.data?.errorMsg}</h4>);
         }
     }
 
 
     const onEdit = async () => {
         try {
-            const body={userFeedback}
+            const body = { userFeedback }
             const res = await axios.patch(`http://localhost:5555/api/feedbacks/${cardData?._id}`, body)
-            
-            cogoToast.success(<h4>{res.data.successMsg}</h4>);
+            cogoToast.success(<h4>{res?.data?.successMsg}</h4>);
+            refetchData();
 
         } catch (err) {
-            console.log(err.response);
+            console.log(err);
+            console.log(err?.response);
 
-            if (err.response.status == 401) {
+            if (err?.response?.status == 401) {
                 localStorage.removeItem("user");
                 history.push("/")
                 cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
             }
-            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+            cogoToast.error(<h4>{err.response?.data?.errorMsg}</h4>);
         }
     }
 
@@ -119,7 +121,7 @@ const FeedbacksCard = ({ cardData }) => {
                             multiline
                             defaultValue={feedback}
                             fullWidth
-                            onChange={(e)=> setUserFeedback(e.target.value)}
+                            onChange={(e) => setUserFeedback(e.target.value)}
                             sx={{ border: "2px solid white", borderRadius: "5px", background: "white" }}
                         />
                     </Grid>

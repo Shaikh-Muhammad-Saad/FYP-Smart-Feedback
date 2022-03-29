@@ -8,6 +8,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, useHistory } from "react-router-dom";
 import react, { useState } from "react"
 import axios from "axios";
+import cogoToast from 'cogo-toast';
+
 
 const SignUpPage = () => {
     const [email, setEmail] = useState();
@@ -34,14 +36,14 @@ const SignUpPage = () => {
         try {
             const body = { email, userName, phone1, password, confirmPassword };
             const res = await axios.post("http://localhost:5555/api/user/", body);
-            alert(res.data.successMsg);
+            cogoToast.success(<h4>{res.data.successMsg}</h4>);
             history.push("/");
+
         } catch (err) {
             console.log(err.response)
-            alert(err.response.data.errorMsg)
+            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
         }
 
-        console.log(email, userName, phone1, password, confirmPassword);
     };
 
     return (

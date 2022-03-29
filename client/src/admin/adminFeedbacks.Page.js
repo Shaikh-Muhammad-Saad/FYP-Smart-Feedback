@@ -116,6 +116,49 @@ const AdminFeedbacksPage = () => {
         }
     }
 
+
+
+    // REFETCH DATA FROM API
+
+    const refetchFeedbacksByRating = async () => {
+        try {
+            const body = { rating }
+            const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByRating", body)
+            setFeedbacksByRating(res.data.reverse());
+            setFeedbacksByDate([]);
+            setGeneralFeedbacks([]);
+
+        } catch (err) {
+            console.log(err.response);
+        }
+    }
+
+
+    const refetchFeedbacksByDate = async () => {
+        try {
+            const body = { date }
+            const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByDate", body)
+            setFeedbacksByDate(res.data.reverse());
+            setGeneralFeedbacks([]);
+            setFeedbacksByRating([]);
+
+        } catch (err) {
+            console.log(err.response);
+        }
+    }
+
+
+    const refetchGeneralFeedback = async () => {
+        try {
+            const res = await axios.get("http://localhost:5555/api/feedbacks/");
+            setGeneralFeedbacks(res.data.reverse());
+            setFeedbacksByRating([]);
+            setFeedbacksByDate([]);
+        } catch (err) {
+            console.log(err.response)
+        }
+    }
+
     return (<>
         <Header />
         <br />
@@ -281,10 +324,10 @@ const AdminFeedbacksPage = () => {
 
         <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
             {
-                ((()=>{
-                    if(generalFeedbacks.length !== 0)return <Typography variant="h4" sx={classes.sortingHeading}>latest Feedbacks</Typography>
-                    if(feedbacksByDate.length !== 0)return <Typography variant="h4" sx={classes.sortingHeading}>Sorted By Date</Typography>
-                    if(feedbacksByRating.length !== 0)return <Typography variant="h4" sx={classes.sortingHeading}>Sorted By Rating</Typography>
+                ((() => {
+                    if (generalFeedbacks.length !== 0) return <Typography variant="h4" sx={classes.sortingHeading}>latest Feedbacks</Typography>
+                    if (feedbacksByDate.length !== 0) return <Typography variant="h4" sx={classes.sortingHeading}>Sorted By Date</Typography>
+                    if (feedbacksByRating.length !== 0) return <Typography variant="h4" sx={classes.sortingHeading}>Sorted By Rating</Typography>
                 })())
             }
         </Grid>
@@ -316,7 +359,15 @@ const AdminFeedbacksPage = () => {
                                 // sx={{ mt: 0, ml: "2%", mb: 0, mr: 0 }}
                                 sx={{ ml: "2%" }}
                             >
-                                <FeedbacksCard cardData={val} />
+                                <FeedbacksCard
+                                    refetchData={refetchGeneralFeedback}
+                                    // refetchData={(refetchGeneralFeedback,refetchFeedbacksByDate,refetchFeedbacksByRating) => {
+                                    //     if (generalFeedbacks.length !== 0) return refetchGeneralFeedback
+                                    //     if (feedbacksByDate.length !== 0) return refetchFeedbacksByDate
+                                    //     if (feedbacksByRating.length !== 0) return refetchFeedbacksByRating
+                                    // }}
+                                    cardData={val}
+                                />
                             </Grid>
                         );
                     })
@@ -331,7 +382,15 @@ const AdminFeedbacksPage = () => {
                                 // sx={{ mt: 0, ml: "2%", mb: 0, mr: 0 }}
                                 sx={{ ml: "2%" }}
                             >
-                                <FeedbacksCard cardData={val} />
+                                <FeedbacksCard
+                                    refetchData={refetchFeedbacksByDate}
+                                    // refetchData={(refetchGeneralFeedback,refetchFeedbacksByDate,refetchFeedbacksByRating) => {
+                                    //     if (generalFeedbacks.length !== 0) return refetchGeneralFeedback
+                                    //     if (feedbacksByDate.length !== 0) return refetchFeedbacksByDate
+                                    //     if (feedbacksByRating.length !== 0) return refetchFeedbacksByRating
+                                    // }}
+                                    cardData={val}
+                                />
                             </Grid>
                         );
                     })
@@ -346,7 +405,15 @@ const AdminFeedbacksPage = () => {
                                 // sx={{ mt: 0, ml: "2%", mb: 0, mr: 0 }}
                                 sx={{ ml: "2%" }}
                             >
-                                <FeedbacksCard cardData={val} />
+                                <FeedbacksCard
+                                refetchData={refetchFeedbacksByRating}
+                                    // refetchData={(refetchGeneralFeedback, refetchFeedbacksByDate, refetchFeedbacksByRating) => {
+                                    //     if (generalFeedbacks.length !== 0) return refetchGeneralFeedback
+                                    //     if (feedbacksByDate.length !== 0) return refetchFeedbacksByDate
+                                    //     if (feedbacksByRating.length !== 0) return refetchFeedbacksByRating
+                                    // }}
+                                    cardData={val}
+                                />
                             </Grid>
                         );
                     })
@@ -430,9 +497,9 @@ const styles = (theme) => ({
     ratingSelect: {
         "& .MuiSelect-select:hover": { border: "none" }
     },
-    sortingHeading:{
+    sortingHeading: {
         ml: "3%",
-        mt:4
+        mt: 4
     }
 
 });
