@@ -9,7 +9,7 @@ import { useState } from "react";
 
 
 
-const FeedbacksCard = ({ cardData, refetchData }) => {
+const GuestFeedbackCard = ({ cardData, refetchData }) => {
     const [isEdit, setIsEdit] = useState(false)
     const [userFeedback, setUserFeedback] = useState()
     // console.log(typeof reFetch)
@@ -23,15 +23,15 @@ const FeedbacksCard = ({ cardData, refetchData }) => {
     const date = cardData?.date + "  |  " + cardData?.time;
     const rating = cardData?.averageRating;
     const feedback = cardData?.userFeedback;
-    const userName = cardData?.userId?.userName;
-    const userEmail = cardData?.userId?.email;
-    const userPhone = cardData?.userId?.phone1;
+    const userName = cardData?.userName;
+    const userEmail = cardData?.email;
+    const userPhone = cardData?.phone1;
     const role = user.role;
 
 
     const onDelete = async () => {
         try {
-            const res = await axios.delete(`http://localhost:5555/api/feedbacks/${cardData?._id}`)
+            const res = await axios.delete(`http://localhost:5555/api/guestFeedbacks/${cardData?._id}`)
             cogoToast.success(<h4>{res?.data?.successMsg}</h4>);
             refetchData();
 
@@ -51,7 +51,7 @@ const FeedbacksCard = ({ cardData, refetchData }) => {
     const onEdit = async () => {
         try {
             const body = { userFeedback }
-            const res = await axios.patch(`http://localhost:5555/api/feedbacks/${cardData?._id}`, body)
+            const res = await axios.patch(`http://localhost:5555/api/guestFeedbacks/${cardData?._id}`, body)
             cogoToast.success(<h4>{res?.data?.successMsg}</h4>);
             refetchData();
 
@@ -241,4 +241,4 @@ const styles = (theme) => ({
     }
 });
 
-export default FeedbacksCard;
+export default GuestFeedbackCard;

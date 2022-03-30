@@ -1,4 +1,4 @@
-import { Grid, Typography, TextField, Button, Box, Alert } from "@mui/material";
+import { Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
@@ -13,6 +13,7 @@ import { addUser } from "../redux/userSlice";
 import axios from "axios";
 import cogoToast from 'cogo-toast';
 
+
 const HomePage = (props) => {
     const [email, setEmail] = useState()
     const [password, setPssword] = useState();
@@ -24,7 +25,7 @@ const HomePage = (props) => {
     const history = useHistory();
 
     // setting axios credentials 
-    axios.defaults.withCredentials =  true;
+    axios.defaults.withCredentials = true;
 
     // handlers
     const login = async (email, password) => {
@@ -35,7 +36,6 @@ const HomePage = (props) => {
             // dispatch(addUser(res.data));
             props.history.push("/user-profile");
             cogoToast.success(<h4>Logged in Successfuh3y</h4>);
-
         }
         catch (err) {
             console.log(err?.response);
@@ -129,7 +129,7 @@ const HomePage = (props) => {
                         </Grid>
 
                         <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
-                            <TextField onChange={(e)=> setEmail(e.target.value)} type="email" variant="standard" fullWidth label="E-mail" />
+                            <TextField onChange={(e) => setEmail(e.target.value)} type="email" variant="standard" fullWidth label="E-mail" />
                         </Grid>
 
                     </Grid>
@@ -152,9 +152,9 @@ const HomePage = (props) => {
                                 type="password"
                                 variant="standard"
                                 fullWidth
-                                label="Password" 
-                                onChange={(e)=> setPssword(e.target.value)}
-                                />
+                                label="Password"
+                                onChange={(e) => setPssword(e.target.value)}
+                            />
                         </Grid>
 
                     </Grid>
@@ -178,6 +178,26 @@ const HomePage = (props) => {
                             onClick={() => props.history.push("/signup")}
                         >
                             Create new account
+                        </Button>
+                    </Grid>
+
+                    <Grid item xs={10} sm={10} md={8} lg={10} xl={10} sx={{ ...classes.itemGridmargin }}>
+                        <Divider
+                            sx={classes.divider}
+                        >
+                            Guest
+                        </Divider>
+                    </Grid>
+
+                    {/* GUEST FEEDBACK BUTTON */}
+                    <Grid item xs={9} sm={9} md={7} lg={9} xl={9} sx={{ ...classes.itemGridmargin }}>
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            sx={{...classes.guestButton}}
+                            onClick={() => props.history.push("/guest-feedback")}
+                        >
+                            Give Feedback as a guest
                         </Button>
                     </Grid>
 
@@ -238,7 +258,11 @@ const styles = (theme, windowheight) => {
             background: "green",
             height: "60px",
             marginBottom: "10px"
-        }
+        },
+        guestButton: {
+            height: "60px",
+            marginBottom: "10px"
+        },
     });
 };
 

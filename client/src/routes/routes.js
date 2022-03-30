@@ -10,6 +10,10 @@ import AdminProfilePage from "../admin/adminProfile.Page"
 import AdminQuestionsPage from "../admin/adminQuestions.Page";
 import { useRouteMatch, withRouter } from "react-router-dom";
 import PublicFeedbacksPage from "../user/publicFeedbacks.Page";
+import GuestFeedBackPage from "../user/guestFeedback"
+import AdminGuestFeedbacksPage from "../admin/adminGuestsFeedbacks"
+
+
 const AppRoutes = (props) => {
 
 
@@ -23,11 +27,14 @@ const AppRoutes = (props) => {
             <Route path="/feedback" component={FeedBackPage} />
             <Route path="/previous-feedbacks" component={PreviousFeedbackPage} />
             <Route path="/public-reviews" component={PublicFeedbacksPage} />
+            <Route path="/guest-feedback" component={GuestFeedBackPage} />
+
 
             {/* Admin routes */}
             <Route path="/admin-profile" component={AdminProfilePage} />
             <Route path="/admin-feedbacks" component={AdminFeedbacksPage} />
             <Route path="/admin-questions" component={AdminQuestionsPage} />
+            <Route path="/admin-guest-feedbacks" component={AdminGuestFeedbacksPage} />
 
         </Switch>
         {/* <Footer /> */}

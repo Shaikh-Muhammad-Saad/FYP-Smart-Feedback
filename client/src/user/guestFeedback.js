@@ -4,13 +4,11 @@ import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import Header from "../components/header.Component.js"
 import StarRatingComponent from "../components/starRating.Component.js";
-import {useHistory } from "react-router-dom";
-
 import axios from "axios";
 import cogoToast from 'cogo-toast';
 
 
-const FeedBackPage = (props) => {
+const GuestFeedBackPage = (props) => {
     const [first, setFirst] = useState(0);
     const [second, setSecond] = useState(0);
     const [third, setThird] = useState(0);
@@ -23,19 +21,14 @@ const FeedBackPage = (props) => {
     const [tenth, setTenth] = useState(0);
     const [avgRating, setAvgRating] = useState();
     const [userFeedback, setUserFeedback] = useState();
+    const [userName, setUserName] = useState();
+    const [phone1, setPhone1] = useState();
+    const [email, setEmail] = useState();
     const [questions, setQuestions] = useState([]);
-    const history = useHistory();
     const theme = useTheme();
     const classes = styles(theme);
-    const user = JSON.parse(localStorage.getItem("user")) ;
-
 
     useEffect(async () => {
-
-        if(!user){
-            history.push("/")
-        }
-
         try {
             const res = await axios.get("http://localhost:5555/api/questions/");
             setQuestions(res.data)
@@ -45,7 +38,7 @@ const FeedBackPage = (props) => {
     }, [])
 
 
-    
+
     const onsubmit = async () => {
         const first1 = first ? first : 0
         const second1 = second ? second : 0
@@ -59,11 +52,34 @@ const FeedBackPage = (props) => {
         const tenth1 = tenth ? tenth : 0
         const avg = (first1 + second1 + third1 + fourth1 + fifth1 + sixth1 + seventh1 + eigth1 + nineth1 + tenth1) / questions.length;
         const averageRating = Math.ceil(avg);
-        const body = { userFeedback, averageRating }
+        const body = { userFeedback, averageRating, phone1, email, userName }
+        if(body.userFeedback == undefined || body.userFeedback == null){
+            cogoToast.error("Kindly provide Feedback");
+            return null;
+        }
+        if(body.userName == undefined || body.userName == null){
+            cogoToast.error("Kindly provide Name");
+            return null;
+        }
+        if(body.email == undefined || body.email == null){
+            cogoToast.error("Kindly provide Email");
+            return null;
+        }
+        if(body.phone1 == undefined || body.phone1 == null){
+            cogoToast.error("Kindly provide Phone#");
+            return null;
+        }
         try {
-            const res = await axios.post(`http://localhost:5555/api/feedbacks/`, body)
-            cogoToast.success(<h4>{res.data.successMsg}</h4>);
-            
+            const res = await axios.post(`http://localhost:5555/api/guestFeedbacks/`, body)
+            cogoToast.success(
+                <div>
+                    <center>
+                    <h3>Thank you For your Feedback</h3>
+                    <h4>Get yourself Register to show your feedback to public and get points</h4>
+                    </center>
+                </div>,
+                { hideAfter: 5 });
+
         } catch (err) {
             console.log(err.response);
             cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
@@ -142,12 +158,47 @@ const FeedBackPage = (props) => {
                 </Typography>
 
                 <TextField
+                    label="Feedback"
                     fullWidth
+                    type={"text"}
                     multiline
                     rows={10}
                     placeholder="write here..."
                     sx={{ ...classes.xSpacing15, background: "#f2f2f2" }}
                     onChange={(e) => setUserFeedback(e.target.value)}
+                />
+                <Typography variant="h6">
+                    Share your Details
+                </Typography>
+
+                <TextField
+                    label="Name"
+                    type="text"
+                    placeholder="write here..."
+                    sx={{ ...classes.xSpacing15, background: "#f2f2f2" }}
+                    fullWidth
+                    onChange={(e) => setUserName(e.target.value)}
+
+                />
+
+                <TextField
+                    label="Email"
+                    type="email"
+                    placeholder="write here..."
+                    sx={{ ...classes.xSpacing15, background: "#f2f2f2" }}
+                    fullWidth
+                    onChange={(e) => setEmail(e.target.value)}
+
+                />
+
+                <TextField
+                    label="Phone"
+                    type="text"
+                    placeholder="write here..."
+                    sx={{ ...classes.xSpacing15, background: "#f2f2f2" }}
+                    fullWidth
+                    onChange={(e) => setPhone1(e.target.value)}
+
                 />
                 <Button variant="contained" onClick={() => onsubmit()}>Submit</Button>
 
@@ -173,4 +224,4 @@ const styles = (theme) => {
     });
 };
 
-export default FeedBackPage;
+export default GuestFeedBackPage;

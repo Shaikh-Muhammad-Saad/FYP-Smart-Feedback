@@ -60,7 +60,7 @@ const Header = (props) => {
                                             style={classes.linksGeneral}
                                         >
                                             <Typography variant="subtitle1" >
-                                                Username
+                                                Profile
                                             </Typography>
                                         </NavLink>
 
@@ -101,7 +101,7 @@ const Header = (props) => {
                                             style={classes.linksGeneral}
                                         >
                                             <Typography variant="subtitle1" >
-                                                Username
+                                                Profile
                                             </Typography>
                                         </NavLink>
 
@@ -112,6 +112,16 @@ const Header = (props) => {
                                         >
                                             <Typography variant="subtitle1" >
                                                 Feedbacks
+                                            </Typography>
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/admin-guest-feedbacks"
+                                            activeStyle={classes.navlinksGeneral}
+                                            style={classes.linksGeneral}
+                                        >
+                                            <Typography variant="subtitle1" >
+                                                Guest Feedbacks
                                             </Typography>
                                         </NavLink>
 
