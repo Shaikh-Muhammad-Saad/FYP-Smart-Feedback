@@ -30,7 +30,8 @@ const SignUpPage = () => {
     const onSubmit = async (email, userName, phone1, password, confirmPassword) => {
 
         if (password !== confirmPassword) {
-            alert("Password must match Confirm password");
+            cogoToast.error(<h4>passwords must match</h4>);           
+             return null;
         }
 
         try {
@@ -214,12 +215,12 @@ const styles = (theme, windowheight) => {
         {
             mainContainer: {
                 background: "#4d79ff",
-                height: windowheight
+                // height: windowheight
             },
             signUpContainer: {
                 background: "white",
                 borderRadius: "15px",
-                marginTop: "10vh",
+                mt: {xs:2, sm:2, md:5, lg:5, xl:5 },
                 marginBottom: "10vh"
             },
             itemGridmargin: {

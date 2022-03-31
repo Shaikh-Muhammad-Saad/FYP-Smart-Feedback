@@ -5,7 +5,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Divider from '@mui/material/Divider';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usehistory, withRouter } from "react-router-dom"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch } from "react-redux";
@@ -23,6 +23,13 @@ const HomePage = (props) => {
     const windowheight = window.innerHeight;
     const classes = styles(theme, windowheight);
     const history = useHistory();
+    const user = JSON.parse(localStorage.getItem("user")) ;
+
+    useEffect(()=>{
+        if(user){
+            props.history.push("/user-profile");
+        }
+    },[]);
 
     // setting axios credentials 
     axios.defaults.withCredentials = true;
@@ -79,7 +86,7 @@ const HomePage = (props) => {
                 {/* PUBLIC FEEDBACKS PAGE BUTTON */}
                 <Button
                     endIcon={<ArrowForwardIosIcon />}
-                    style={{ ...classes.headingsGeneral, padding: "20px", color: "#4d79ff", fontWeight: "bold", background: "white", borderRadius: "30px", marginTop: "10px" }}
+                    sx={{ ...classes.headingsGeneral, padding: "20px", color: "#4d79ff", fontWeight: "bold", background: "white", borderRadius: "30px", marginTop: "10px" }}
                     onClick={() => props.history.push("/public-reviews")}
                 >
                     <Typography variant="h6">
@@ -213,11 +220,13 @@ const styles = (theme, windowheight) => {
     return ({
         mainContainer: {
             background: "#4d79ff",
-            height: windowheight
+            // height: windowheight
         },
         signInContainer: {
             background: "white",
             borderRadius: "15px",
+            mt:{xl:10, lg:10, md:10,sm:5, xs:2},
+            mb:{xl:10, lg:10, md:10,sm:5, xs:2},
             [theme.breakpoints.only("xs")]: {
                 marginBottom: "100px"
             }

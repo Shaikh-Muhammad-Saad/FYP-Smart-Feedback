@@ -66,7 +66,7 @@ const FeedBackPage = (props) => {
             
         } catch (err) {
             console.log(err.response);
-            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>);
+            cogoToast.error(<h4>{err.response.data.errorMsg}</h4>,{hideAfter:5});
         }
     };
 

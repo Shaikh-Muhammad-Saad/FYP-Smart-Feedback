@@ -15,10 +15,10 @@ const postFeedback = async (req, res, next) => {
         }
 
         // checking if user can give feedback or not || 24 hours completed?
-        // if (Date.now() <= user.nextFeedbackDate) {
-        //     const dateTime = user.nextFeedbackDate + "|" + user.nextFeedbackTime;
-        //     return res.status(400).json({ errorMsg: `You have to wait till ${dateTime} for your next feedback` }); // 400 for bad request
-        // }
+        if (Date.now() <= user.nextFeedbackDate) {
+            const dateTime = user.nextFeedbackDate + "|" + user.nextFeedbackTime;
+            return res.status(400).json({ errorMsg: `You have to wait till ${dateTime} for your next feedback` }); // 400 for bad request
+        }
 
         const feedback = new feedbacksModel(req.body);
         feedback.userId = req.userId;
