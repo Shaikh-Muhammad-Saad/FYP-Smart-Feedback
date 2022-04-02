@@ -267,7 +267,7 @@ const Header = (props) => {
                                 justifyContent="flex-strat"
                                 alignItems="center"
                             >
-                                <Button sx={classes.logoutBtn} variant="contained">
+                                <Button onClick={()=> logout()} sx={classes.logoutBtn} variant="contained">
                                     <Typography variant="caption">
                                         Logout
                                     </Typography>
