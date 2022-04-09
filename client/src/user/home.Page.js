@@ -12,6 +12,8 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../redux/userSlice";
 import axios from "axios";
 import cogoToast from 'cogo-toast';
+import apiUrl from "../config/apiUrl"
+
 
 
 const HomePage = (props) => {
@@ -38,7 +40,7 @@ const HomePage = (props) => {
     const login = async (email, password) => {
         try {
             const body = { email, password }
-            const res = await axios.post("http://localhost:5555/api/user/login", body);
+            const res = await axios.post(apiUrl+"/api/user/login", body);
             localStorage.setItem("user", JSON.stringify(res.data));
             // dispatch(addUser(res.data));
             props.history.push("/user-profile");

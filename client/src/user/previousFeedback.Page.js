@@ -4,6 +4,8 @@ import { useTheme } from '@mui/material/styles';
 import Header from "../components/header.Component"
 import FeedbacksCard from "../components/feedbackCard.Compnent"
 import axios from "axios";
+import apiUrl from "../config/apiUrl"
+
 
 const PreviousFeedbackPage = (props) => {
 
@@ -14,9 +16,8 @@ const PreviousFeedbackPage = (props) => {
 
     useEffect(async () => {
         try {
-            const res = await axios.get(`http://localhost:5555/api/feedbacks/${user._id}`)
+            const res = await axios.get(`${apiUrl}/api/feedbacks/${user._id}`)
             setFeedbacks(res.data.reverse());
-
         } catch (err) {
             console.log(err.response);
         }

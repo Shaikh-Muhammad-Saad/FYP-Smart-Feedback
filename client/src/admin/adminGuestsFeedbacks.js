@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import GuestFeedbackCard from "../components/guestFeedbackCard.Component"
 import axios from "axios";
-
+import apiUrl from "../config/apiUrl"
 
 
 
@@ -67,7 +67,7 @@ const AdminGuestFeedbacksPage = () => {
         sortByRating.current.style.display = "none"
         sortByDate.current.style.display = "none"
         try {
-            const res = await axios.get("http://localhost:5555/api/guestFeedbacks/");
+            const res = await axios.get(apiUrl+"/api/guestFeedbacks/");
             setGeneralFeedbacks(res.data.reverse());
             setFeedbacksByRating([]);
             setFeedbacksByDate([]);
@@ -81,7 +81,7 @@ const AdminGuestFeedbacksPage = () => {
 
     useEffect(async () => {
         try {
-            const res = await axios.get("http://localhost:5555/api/guestFeedbacks/");
+            const res = await axios.get(apiUrl+"/api/guestFeedbacks/");
             setGeneralFeedbacks(res.data.reverse());
         } catch (err) {
             console.log(err.response)
@@ -93,7 +93,7 @@ const AdminGuestFeedbacksPage = () => {
     const getFeedbacksByDate = async () => {
         try {
             const body = { date }
-            const res = await axios.post("http://localhost:5555/api/guestFeedbacks/feedbacksByDate", body)
+            const res = await axios.post(apiUrl+"/api/guestFeedbacks/feedbacksByDate", body)
             setFeedbacksByDate(res.data.reverse());
             setGeneralFeedbacks([]);
             setFeedbacksByRating([]);
@@ -106,7 +106,7 @@ const AdminGuestFeedbacksPage = () => {
     const getFeedbacksByRating = async () => {
         try {
             const body = { rating }
-            const res = await axios.post("http://localhost:5555/api/guestFeedbacks/feedbacksByRating", body)
+            const res = await axios.post(apiUrl+"/api/guestFeedbacks/feedbacksByRating", body)
             setFeedbacksByRating(res.data.reverse());
             setFeedbacksByDate([]);
             setGeneralFeedbacks([]);
@@ -123,7 +123,7 @@ const AdminGuestFeedbacksPage = () => {
     const refetchFeedbacksByRating = async () => {
         try {
             const body = { rating }
-            const res = await axios.post("http://localhost:5555/api/guestFeedbacks/feedbacksByRating", body)
+            const res = await axios.post(apiUrl+"/api/guestFeedbacks/feedbacksByRating", body)
             setFeedbacksByRating(res.data.reverse());
             setFeedbacksByDate([]);
             setGeneralFeedbacks([]);
@@ -137,7 +137,7 @@ const AdminGuestFeedbacksPage = () => {
     const refetchFeedbacksByDate = async () => {
         try {
             const body = { date }
-            const res = await axios.post("http://localhost:5555/api/guestFeedbacks/feedbacksByDate", body)
+            const res = await axios.post(apiUrl+"/api/guestFeedbacks/feedbacksByDate", body)
             setFeedbacksByDate(res.data.reverse());
             setGeneralFeedbacks([]);
             setFeedbacksByRating([]);
@@ -150,7 +150,7 @@ const AdminGuestFeedbacksPage = () => {
 
     const refetchGeneralFeedback = async () => {
         try {
-            const res = await axios.get("http://localhost:5555/api/guestFeedbacks/");
+            const res = await axios.get(apiUrl+"/api/guestFeedbacks/");
             setGeneralFeedbacks(res.data.reverse());
             setFeedbacksByRating([]);
             setFeedbacksByDate([]);

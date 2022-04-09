@@ -4,6 +4,8 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PublicFeedbackCard from "../components/publicFeedbackCard.Component"
 import axios from "axios";
+import apiUrl from "../config/apiUrl"
+
 
 const PublicFeedbacksPage = () => {
     const [generalFeedbacks, setGeneralFeedbacks] = useState([]);
@@ -14,7 +16,7 @@ const PublicFeedbacksPage = () => {
 
 
     useEffect(async () => {
-        const res = await axios.get("http://localhost:5555/api/feedbacks/");
+        const res = await axios.get(apiUrl+"/api/feedbacks/");
         setGeneralFeedbacks(res.data.reverse());
     }, []);
 

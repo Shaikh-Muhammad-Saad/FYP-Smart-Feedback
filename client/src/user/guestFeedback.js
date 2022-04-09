@@ -6,6 +6,7 @@ import Header from "../components/header.Component.js"
 import StarRatingComponent from "../components/starRating.Component.js";
 import axios from "axios";
 import cogoToast from 'cogo-toast';
+import apiUrl from "../config/apiUrl"
 
 
 const GuestFeedBackPage = (props) => {
@@ -30,7 +31,7 @@ const GuestFeedBackPage = (props) => {
 
     useEffect(async () => {
         try {
-            const res = await axios.get("http://localhost:5555/api/questions/");
+            const res = await axios.get(apiUrl+"/api/questions/");
             setQuestions(res.data)
         } catch (err) {
             console.log(err.response);
@@ -70,7 +71,7 @@ const GuestFeedBackPage = (props) => {
             return null;
         }
         try {
-            const res = await axios.post(`http://localhost:5555/api/guestFeedbacks/`, body)
+            const res = await axios.post(`${apiUrl}/api/guestFeedbacks/`, body)
             cogoToast.success(
                 <div>
                     <center>

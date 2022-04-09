@@ -14,6 +14,8 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import FeedbacksCard from "../components/feedbackCard.Compnent"
 import axios from "axios";
+import apiUrl from "../config/apiUrl"
+
 
 
 
@@ -67,7 +69,7 @@ const AdminFeedbacksPage = () => {
         sortByRating.current.style.display = "none"
         sortByDate.current.style.display = "none"
         try {
-            const res = await axios.get("http://localhost:5555/api/feedbacks/");
+            const res = await axios.get(apiUrl+"/api/feedbacks/");
             setGeneralFeedbacks(res.data.reverse());
             setFeedbacksByRating([]);
             setFeedbacksByDate([]);
@@ -81,7 +83,7 @@ const AdminFeedbacksPage = () => {
 
     useEffect(async () => {
         try {
-            const res = await axios.get("http://localhost:5555/api/feedbacks/");
+            const res = await axios.get(apiUrl+"/api/feedbacks/");
             setGeneralFeedbacks(res.data.reverse());
         } catch (err) {
             console.log(err.response)
@@ -93,7 +95,7 @@ const AdminFeedbacksPage = () => {
     const getFeedbacksByDate = async () => {
         try {
             const body = { date }
-            const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByDate", body)
+            const res = await axios.post(apiUrl+"/api/feedbacks/feedbacksByDate", body)
             setFeedbacksByDate(res.data.reverse());
             setGeneralFeedbacks([]);
             setFeedbacksByRating([]);
@@ -106,7 +108,7 @@ const AdminFeedbacksPage = () => {
     const getFeedbacksByRating = async () => {
         try {
             const body = { rating }
-            const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByRating", body)
+            const res = await axios.post(apiUrl+"/api/feedbacks/feedbacksByRating", body)
             setFeedbacksByRating(res.data.reverse());
             setFeedbacksByDate([]);
             setGeneralFeedbacks([]);
@@ -123,7 +125,7 @@ const AdminFeedbacksPage = () => {
     const refetchFeedbacksByRating = async () => {
         try {
             const body = { rating }
-            const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByRating", body)
+            const res = await axios.post(apiUrl+"/api/feedbacks/feedbacksByRating", body)
             setFeedbacksByRating(res.data.reverse());
             setFeedbacksByDate([]);
             setGeneralFeedbacks([]);
@@ -137,7 +139,7 @@ const AdminFeedbacksPage = () => {
     const refetchFeedbacksByDate = async () => {
         try {
             const body = { date }
-            const res = await axios.post("http://localhost:5555/api/feedbacks/feedbacksByDate", body)
+            const res = await axios.post(apiUrl+"/api/feedbacks/feedbacksByDate", body)
             setFeedbacksByDate(res.data.reverse());
             setGeneralFeedbacks([]);
             setFeedbacksByRating([]);
@@ -150,7 +152,7 @@ const AdminFeedbacksPage = () => {
 
     const refetchGeneralFeedback = async () => {
         try {
-            const res = await axios.get("http://localhost:5555/api/feedbacks/");
+            const res = await axios.get(apiUrl+"/api/feedbacks/");
             setGeneralFeedbacks(res.data.reverse());
             setFeedbacksByRating([]);
             setFeedbacksByDate([]);

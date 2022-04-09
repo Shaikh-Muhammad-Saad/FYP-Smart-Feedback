@@ -9,6 +9,7 @@ import { Link, useHistory } from "react-router-dom";
 import react, { useState } from "react"
 import axios from "axios";
 import cogoToast from 'cogo-toast';
+import apiUrl from "../config/apiUrl"
 
 
 const SignUpPage = () => {
@@ -36,7 +37,7 @@ const SignUpPage = () => {
 
         try {
             const body = { email, userName, phone1, password, confirmPassword };
-            const res = await axios.post("http://localhost:5555/api/user/", body);
+            const res = await axios.post(apiUrl+"/api/user/", body);
             cogoToast.success(<h4>{res.data.successMsg}</h4>);
             history.push("/");
 

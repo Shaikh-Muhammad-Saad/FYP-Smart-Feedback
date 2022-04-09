@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import Header from "../components/header.Component.js"
 import StarRatingComponent from "../components/starRating.Component.js";
 import {useHistory } from "react-router-dom";
-
+import apiUrl from "../config/apiUrl"
 import axios from "axios";
 import cogoToast from 'cogo-toast';
 
@@ -37,7 +37,7 @@ const FeedBackPage = (props) => {
         }
 
         try {
-            const res = await axios.get("http://localhost:5555/api/questions/");
+            const res = await axios.get(apiUrl+"/api/questions/");
             setQuestions(res.data)
         } catch (err) {
             console.log(err.response);
@@ -61,7 +61,7 @@ const FeedBackPage = (props) => {
         const averageRating = Math.ceil(avg);
         const body = { userFeedback, averageRating }
         try {
-            const res = await axios.post(`http://localhost:5555/api/feedbacks/`, body)
+            const res = await axios.post(`${apiUrl}/api/feedbacks/`, body)
             cogoToast.success(<h4>{res.data.successMsg}</h4>);
             
         } catch (err) {

@@ -7,6 +7,8 @@ import Header from "../components/header.Component.js"
 import EditProfileModal from "../components/modal/editProfileModal.Component";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import apiUrl from "../config/apiUrl"
+
 
 
 
@@ -31,7 +33,7 @@ const UserProfilePage = (props) => {
 
     useEffect(async () => {
         try {
-            const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
+            const res = await axios.get(`${apiUrl}/api/user/${user._id}`);
             setDisplayUser(res.data);
         } catch (err) {
             console.log(err.response);
@@ -40,7 +42,7 @@ const UserProfilePage = (props) => {
 
     const refetchUser= async()=>{
         try {
-            const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
+            const res = await axios.get(`${apiUrl}/api/user/${user._id}`);
             setDisplayUser(res.data);
         } catch (err) {
             console.log(err.response);

@@ -7,6 +7,8 @@ import Header from "../components/header.Component"
 import axios from "axios";
 import cogoToast from 'cogo-toast';
 import { useHistory } from "react-router-dom";
+import apiUrl from "../config/apiUrl"
+
 
 const AdminQuestionsPage = () => {
     const [questions, setQuestions] = useState([]);
@@ -18,14 +20,14 @@ const AdminQuestionsPage = () => {
     const isXS = useMediaQuery(theme.breakpoints.only("xs"));
 
     useEffect(async () => {
-        const res = await axios.get("http://localhost:5555/api/questions/");
+        const res = await axios.get(apiUrl+"/api/questions/");
         setQuestions(res.data);
     }, [questions]);
 
     const addQuestion = async () => {
         try {
             const body= {question}
-            const res = await axios.post(`http://localhost:5555/api/questions/`, body)
+            const res = await axios.post(`${apiUrl}/api/questions/`, body)
             cogoToast.success(<h4>{res.data.successMsg}</h4>);
 
 

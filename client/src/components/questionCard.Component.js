@@ -5,6 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import axios from "axios";
 import cogoToast from 'cogo-toast';
 import { useHistory } from "react-router-dom";
+import apiUrl from "../config/apiUrl"
+
 
 
 const QuestionCardComponent = ({ cardvalue }) => {
@@ -18,7 +20,7 @@ const QuestionCardComponent = ({ cardvalue }) => {
 
     const onDelete = async (id) => {
         try {
-            const res = await axios.delete(`http://localhost:5555/api/questions/${id}`)
+            const res = await axios.delete(`${apiUrl}/api/questions/${id}`)
             cogoToast.success(<h4>{res.data.successMsg}</h4>);
 
         } catch (err) {
@@ -37,7 +39,7 @@ const QuestionCardComponent = ({ cardvalue }) => {
     const onUpdate = async (id) => {
         try {
             const body = {question};
-            const res = await axios.patch(`http://localhost:5555/api/questions/${id}`, body)
+            const res = await axios.patch(`${apiUrl}/api/questions/${id}`, body)
             cogoToast.success(<h4>{res.data.successMsg}</h4>);
 
         } catch (err) {

@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import cogoToast from 'cogo-toast';
 import { useState } from "react";
+import apiUrl from "../config/apiUrl"
+
 
 
 
@@ -31,7 +33,7 @@ const GuestFeedbackCard = ({ cardData, refetchData }) => {
 
     const onDelete = async () => {
         try {
-            const res = await axios.delete(`http://localhost:5555/api/guestFeedbacks/${cardData?._id}`)
+            const res = await axios.delete(`${apiUrl}/api/guestFeedbacks/${cardData?._id}`)
             cogoToast.success(<h4>{res?.data?.successMsg}</h4>);
             refetchData();
 
@@ -51,7 +53,7 @@ const GuestFeedbackCard = ({ cardData, refetchData }) => {
     const onEdit = async () => {
         try {
             const body = { userFeedback }
-            const res = await axios.patch(`http://localhost:5555/api/guestFeedbacks/${cardData?._id}`, body)
+            const res = await axios.patch(`${apiUrl}/api/guestFeedbacks/${cardData?._id}`, body)
             cogoToast.success(<h4>{res?.data?.successMsg}</h4>);
             refetchData();
 

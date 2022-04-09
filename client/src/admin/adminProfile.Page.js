@@ -6,6 +6,8 @@ import Header from ".././components/header.Component"
 import EditProfileModal from "../components/modal/editProfileModal.Component"
 import { Link, NavLink, useHistory } from "react-router-dom";
 import axios from "axios";
+import apiUrl from "../config/apiUrl"
+
 
 const AdminProfilePage = () => {
 
@@ -29,7 +31,7 @@ const AdminProfilePage = () => {
 
     useEffect(async () => {
         try {
-            const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
+            const res = await axios.get(`${apiUrl}/api/user/${user._id}`);
             setDisplayUser(res.data);
         } catch (err) {
             console.log(err.response);
@@ -38,7 +40,7 @@ const AdminProfilePage = () => {
 
     const refetchUser= async()=>{
         try {
-            const res = await axios.get(`http://localhost:5555/api/user/${user._id}`);
+            const res = await axios.get(`${apiUrl}/api/user/${user._id}`);
             setDisplayUser(res.data);
         } catch (err) {
             console.log(err.response);
