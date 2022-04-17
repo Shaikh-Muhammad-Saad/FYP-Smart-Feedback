@@ -157,7 +157,7 @@ const login = async (req, res, next) => {
         // generating json web token
         const token = await jwt.sign({ id: user._id, role: user.role }, jwt_secrete_key, { expiresIn: "1h" });
 
-        res.cookie("AuthToken", token, { expire: Date.now() + 3600000 }); //3600000ms is 1hour
+        res.cookie("AuthToken", token, { expire: Date.now() + 3600000, sameSite: 'none', secure: true }); //3600000ms is 1hour
         return res.status(200).send(user);
     }
     catch (err) {

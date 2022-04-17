@@ -12,7 +12,7 @@ import errorHandler from "./middlewares/errorHandler.js"
 connectDatabase();
 
 const app = express();
-const port = process.env.PORT | 5555;
+const port = process.env.PORT || 5555;
 
 app.use(cookieParser());
 app.use(

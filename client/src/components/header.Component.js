@@ -1,18 +1,18 @@
-import react, { useState,useEffect } from "react";
+import react, { useState, useEffect } from "react";
 import { AppBar, Toolbar, Grid, Typography, Button, Hidden, IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
-import { Link, NavLink ,useHistory} from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux"
 import cogoToast from 'cogo-toast';
 
 
 const Header = (props) => {
     const [dropDownMenu, setDropDownMenu] = useState(false);
-    const history =  useHistory();
-    const user = JSON.parse(localStorage.getItem("user")) ;
+    const history = useHistory();
+    const user = JSON.parse(localStorage.getItem("user"));
     const theme = useTheme();
-    const classes = styles(theme); 
+    const classes = styles(theme);
     // const role = "user";
 
     // useEffect(async () => {
@@ -23,9 +23,9 @@ const Header = (props) => {
 
     if (!user) return null
 
-    const role = user? user.role: null;
+    const role = user ? user.role : null;
 
-    const logout = ()=>{
+    const logout = () => {
         localStorage.removeItem("user");
         history.push("/")
         cogoToast.success(<h3>logged out</h3>);
@@ -147,7 +147,7 @@ const Header = (props) => {
                             alignItems="center"
                             sm={3} md={3} lg={3} xl={3}
                         >
-                            <Button onClick={()=> logout()} sx={classes.logoutBtn} variant="contained">
+                            <Button onClick={() => logout()} sx={classes.logoutBtn} variant="contained">
                                 <Typography variant="caption">
                                     Logout
                                 </Typography>
@@ -233,7 +233,7 @@ const Header = (props) => {
                                                 style={classes.linksGeneral}
                                             >
                                                 <Typography variant="subtitle1" >
-                                                    Username
+                                                    Profile
                                                 </Typography>
                                             </NavLink>
 
@@ -244,6 +244,16 @@ const Header = (props) => {
                                             >
                                                 <Typography variant="subtitle1" >
                                                     Feedbacks
+                                                </Typography>
+                                            </NavLink>
+
+                                            <NavLink
+                                                to="/admin-guest-feedbacks"
+                                                activeStyle={classes.navlinksGeneral}
+                                                style={classes.linksGeneral}
+                                            >
+                                                <Typography variant="subtitle1" >
+                                                    Guest Feedbacks
                                                 </Typography>
                                             </NavLink>
 
@@ -267,7 +277,7 @@ const Header = (props) => {
                                 justifyContent="flex-strat"
                                 alignItems="center"
                             >
-                                <Button onClick={()=> logout()} sx={classes.logoutBtn} variant="contained">
+                                <Button onClick={() => logout()} sx={classes.logoutBtn} variant="contained">
                                     <Typography variant="caption">
                                         Logout
                                     </Typography>

@@ -41,7 +41,7 @@ const readAllfeedbacks = async (req, res, next) => {
 // access: NOT-PROTECTED
 const readUserFeedbacks = async (req, res, next) => {
     try {
-        const feedbacks = await feedbacksModel.find({ userId: req.params.id }).populate("userId");
+        const feedbacks = await guestFeedbacksModel.find({ userId: req.params.id }).populate("userId");
 
         if (!feedbacks) {
             return res.status(500).json({ errorMsg: "Server Error" });
@@ -60,7 +60,7 @@ const readUserFeedbacks = async (req, res, next) => {
 const getFeedbacksByDate = async (req, res, next) => {
     try {
 
-        const feedbacks = await feedbacksModel.find({ date: req.body.date }).populate("userId");
+        const feedbacks = await guestFeedbacksModel.find({ date: req.body.date });
 
         if (!feedbacks) {
             return res.status(500).json({ errorMsg: "Server Error" });
@@ -79,7 +79,7 @@ const getFeedbacksByDate = async (req, res, next) => {
 const getFeedbacksByRating = async (req, res, next) => {
     try {
 
-        const feedbacks = await feedbacksModel.find({ averageRating: req.body.rating }).populate("userId");
+        const feedbacks = await guestFeedbacksModel.find({ averageRating: req.body.rating });
 
         if (!feedbacks) {
             return res.status(500).json({ errorMsg: "Server Error" });

@@ -11,6 +11,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link , useHistory} from "react-router-dom";
 import axios from 'axios';
 import cogoToast from 'cogo-toast';
+import apiUrl from "../../config/apiUrl"
+
 
 
 
@@ -34,7 +36,7 @@ export default function EditProfileModal({ userData ,refetchUser}) {
     const submit = async (userName, email, phone1, password) => {
         try {
             const body = { userName, email, phone1 , password };
-            const res = await axios.patch("http://localhost:5555/api/user/", body);
+            const res = await axios.patch(apiUrl+"/api/user/", body);
             refetchUser();
             cogoToast.success(<h4>{res.data.successMsg}</h4>);
         } catch (err) {
